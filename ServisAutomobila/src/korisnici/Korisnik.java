@@ -4,6 +4,7 @@ import uloge.Pol;
 
 public abstract class Korisnik {
 	
+	protected int id;
 	protected String ime;
 	protected String prezime;
 	protected String jmbg;
@@ -15,6 +16,7 @@ public abstract class Korisnik {
 	
 	public Korisnik() {
 		super();
+		this.id = 0;
 		this.ime = "";
 		this.prezime = "";
 		this.jmbg = "";
@@ -25,9 +27,10 @@ public abstract class Korisnik {
 		this.lozinka = "";
 	}
 
-	public Korisnik(String ime, String prezime, String jmbg, Pol pol, String adresa, String brojTelefona,
+	public Korisnik(int id,String ime, String prezime, String jmbg, Pol pol, String adresa, String brojTelefona,
 			String korisnickoIme, String lozinka) {
 		super();
+		this.id = id;
 		this.ime = ime;
 		this.prezime = prezime;
 		this.jmbg = jmbg;
@@ -36,6 +39,15 @@ public abstract class Korisnik {
 		this.brojTelefona = brojTelefona;
 		this.korisnickoIme = korisnickoIme;
 		this.lozinka = lozinka;
+	}
+	
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getIme() {
@@ -104,9 +116,10 @@ public abstract class Korisnik {
 
 	@Override
 	public String toString() {
-		return "Korisnik [ime=" + ime + ", prezime=" + prezime + ", jmbg=" + jmbg + ", pol=" + pol + ", adresa="
-				+ adresa + ", brojTelefona=" + brojTelefona + ", korisnickoIme=" + korisnickoIme + ", lozinka="
-				+ lozinka + "]";
+		return "Korisnik [id=" + id + ", ime=" + ime + ", prezime=" + prezime + ", jmbg=" + jmbg + ", pol=" + pol
+				+ ", adresa=" + adresa + ", brojTelefona=" + brojTelefona + ", korisnickoIme=" + korisnickoIme
+				+ ", lozinka=" + lozinka + "]";
 	}
+
 	
 }

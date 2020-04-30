@@ -7,19 +7,30 @@ import korisnici.Serviser;
 
 public class Servis {
 	
+	private int id;
 	private Automobil auto;
 	private Serviser serviser;
 	private Date datum;
 	private String opis;
 	private ArrayList<Deo>listaDelova;
 	
-	public Servis(Automobil auto, Serviser serviser, Date datum, String opis, ArrayList<Deo> listaDelova) {
+	public Servis(int id,Automobil auto, Serviser serviser, Date datum, String opis, ArrayList<Deo> listaDelova) {
 		super();
+		this.id = id;
 		this.auto = auto;
 		this.serviser = serviser;
 		this.datum = datum;
 		this.opis = opis;
 		this.listaDelova = listaDelova;
+	}
+	
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public Automobil getAuto() {
@@ -62,13 +73,10 @@ public class Servis {
 		this.listaDelova = listaDelova;
 	}
 
+
 	@Override
 	public String toString() {
-		return "Servis [auto=" + auto + ", serviser=" + serviser + ", datum=" + datum + ", opis=" + opis
+		return "Servis [id=" + id + ", auto=" + auto + ", serviser=" + serviser + ", datum=" + datum + ", opis=" + opis
 				+ ", listaDelova=" + listaDelova + "]";
 	}
-	
-	
-	
-
 }

@@ -10,9 +10,9 @@ public class Administrator extends Korisnik {
 		this.plata = 0;
 	}
 
-	public Administrator(String ime, String prezime, String jmbg, Pol pol, String adresa, String brojTelefona,
+	public Administrator(int id,String ime, String prezime, String jmbg, Pol pol, String adresa, String brojTelefona,
 			String korisnickoIme, String lozinka, double plata) {
-		super(ime, prezime, jmbg, pol, adresa, brojTelefona, korisnickoIme, lozinka);
+		super(id,ime, prezime, jmbg, pol, adresa, brojTelefona, korisnickoIme, lozinka);
 		this.plata = plata;
 	}
 
@@ -26,10 +26,9 @@ public class Administrator extends Korisnik {
 
 	@Override
 	public String toString() {
-		return "Administrator [plata=" + plata + ", ime=" + ime + ", prezime=" + prezime + ", jmbg=" + jmbg + ", pol="
-				+ pol + ", adresa=" + adresa + ", brojTelefona=" + brojTelefona + ", korisnickoIme=" + korisnickoIme
-				+ ", lozinka=" + lozinka + "]";
+		return "Administrator [plata=" + plata + ", id=" + id + ", ime=" + ime + ", prezime=" + prezime + ", jmbg="
+				+ jmbg + ", pol=" + pol + ", adresa=" + adresa + ", brojTelefona=" + brojTelefona + ", korisnickoIme="
+				+ korisnickoIme + ", lozinka=" + lozinka + "]";
 	}
-	
 
 }

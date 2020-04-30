@@ -4,14 +4,27 @@ import java.util.ArrayList;
 
 public class ServisnaKnjizica {
 	
+	private int id;
 	private Automobil automobil;
 	ArrayList<Servis>listaServisa;
 	
-	public ServisnaKnjizica(Automobil automobil, ArrayList<Servis> listaServisa) {
+	public ServisnaKnjizica(int id,Automobil automobil, ArrayList<Servis> listaServisa) {
 		super();
+		this.id = id;
 		this.automobil = automobil;
 		this.listaServisa = listaServisa;
 	}
+	
+
+	public int getId() {
+		return id;
+	}
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 
 	public Automobil getAutomobil() {
 		return automobil;
@@ -29,8 +42,10 @@ public class ServisnaKnjizica {
 		this.listaServisa = listaServisa;
 	}
 
+
 	@Override
 	public String toString() {
-		return "ServisnaKnjizica [automobil=" + automobil + ", listaServisa=" + listaServisa + "]";
+		return "ServisnaKnjizica [id=" + id + ", automobil=" + automobil + ", listaServisa=" + listaServisa + "]";
 	}
+
 }

@@ -7,6 +7,7 @@ import uloge.VrstaGoriva;
 
 public class Automobil {
 	
+	private int id;
 	private Musterija vlasnik;
 	private Marka marka;
 	private Model model;
@@ -15,9 +16,10 @@ public class Automobil {
 	private String zapreminaMotora;
 	private VrstaGoriva vrstaGoriva;
 	
-	public Automobil(Musterija vlasnik, Marka marka, Model model, int godiste, String snagaMotora,
+	public Automobil(int id,Musterija vlasnik, Marka marka, Model model, int godiste, String snagaMotora,
 			String zapreminaMotora, VrstaGoriva vrstaGoriva) {
 		super();
+		this.id = id;
 		this.vlasnik = vlasnik;
 		this.marka = marka;
 		this.model = model;
@@ -26,6 +28,17 @@ public class Automobil {
 		this.zapreminaMotora = zapreminaMotora;
 		this.vrstaGoriva = vrstaGoriva;
 	}
+	
+
+	public int getId() {
+		return id;
+	}
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 
 	public Musterija getVlasnik() {
 		return vlasnik;
@@ -83,14 +96,12 @@ public class Automobil {
 		this.vrstaGoriva = vrstaGoriva;
 	}
 
+
 	@Override
 	public String toString() {
-		return "Automobil [vlasnik=" + vlasnik + ", marka=" + marka + ", model=" + model + ", godiste=" + godiste
-				+ ", snagaMotora=" + snagaMotora + ", zapreminaMotora=" + zapreminaMotora + ", vrstaGoriva="
+		return "Automobil [id=" + id + ", vlasnik=" + vlasnik + ", marka=" + marka + ", model=" + model + ", godiste="
+				+ godiste + ", snagaMotora=" + snagaMotora + ", zapreminaMotora=" + zapreminaMotora + ", vrstaGoriva="
 				+ vrstaGoriva + "]";
 	}
-	
-	
 
-	
 }
