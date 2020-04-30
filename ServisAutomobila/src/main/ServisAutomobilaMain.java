@@ -45,7 +45,7 @@ public class ServisAutomobilaMain {
 		ServisnaKnjizica sKnjizica1 = new ServisnaKnjizica(1,auto1, listaServisa);
 		
 		
-		System.out.println(sKnjizica1);
+		System.out.println(sKnjizica1); 
 	}
 }
 	
