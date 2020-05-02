@@ -16,6 +16,17 @@ public class Automobil {
 	private String zapreminaMotora;
 	private VrstaGoriva vrstaGoriva;
 	
+	public Automobil() {
+		this.id = 0;
+		this.vlasnik = new Musterija();
+		this.marka = Marka.AUDI;
+		this.model = Model.R8;
+		this.godiste = 0;
+		this.snagaMotora = "";
+		this.zapreminaMotora = "";
+		this.vrstaGoriva = VrstaGoriva.Benzin;
+	}
+	
 	public Automobil(int id,Musterija vlasnik, Marka marka, Model model, int godiste, String snagaMotora,
 			String zapreminaMotora, VrstaGoriva vrstaGoriva) {
 		super();
