@@ -1,33 +1,26 @@
 package main;
 
 
+import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
+import java.util.Scanner;
 
-
-
+import gui.MojPrviProzor;
+import gui.Prijava;
 import korisnici.Musterija;
-import korisnici.Serviser;
-
+import servis.Automobil;
+import servis.Servis;
+import servis.ServisnaKnjizica;
 import util.CitanjeFajlova;
+import util.PisanjeFajlova;
 
 
 public class ServisAutomobilaMain {
 
 	public static void main(String[] args) {
-		ArrayList<Musterija>ucitaneMusterije = CitanjeFajlova.ucitajMusterije();
-		for(Musterija musterija : ucitaneMusterije) {
-			System.out.println(musterija);
-			
-			
-		}
-		ArrayList<Serviser>ucitaniServiseri = CitanjeFajlova.ucitajServisere();
-		for(Serviser serviser : ucitaniServiseri) {
-			System.out.println(serviser);
-		}
-			
+		Prijava prijavaProzor = new Prijava();
+		prijavaProzor.setVisible(true);
 	}
-	
 }
-	
 
 

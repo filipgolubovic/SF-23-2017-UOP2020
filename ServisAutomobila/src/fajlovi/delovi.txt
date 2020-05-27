@@ -1,0 +1,4 @@
+1|0|2|Kocnice|25000
+2|0|2|Brisaci|1500
+3|1|1|Retrovizor|5000
+4|1|1|Set Guma|30000
