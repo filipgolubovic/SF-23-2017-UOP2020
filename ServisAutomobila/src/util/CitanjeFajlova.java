@@ -275,6 +275,25 @@ public class CitanjeFajlova {
 			}
 		}return null;
 	}
+	
+	public Musterija loginM(String korIme, String lozinka) {
+		ArrayList<Musterija>ucitaneMusterije = ucitajMusterije();
+		for (Musterija musterija : ucitaneMusterije) {
+			if(musterija.getKorisnickoIme().equalsIgnoreCase(korIme) && musterija.getLozinka().equalsIgnoreCase(lozinka)) {
+				return musterija;
+			}
+		}
+		return null;
+	}
+	public Administrator loginA(String korIme, String lozinka) {
+		ArrayList<Administrator>uciteniAdmini = ucitavanjeAdmina();
+		for (Administrator admin : uciteniAdmini) {
+			if(admin.getKorisnickoIme().equalsIgnoreCase(korIme) && admin.getLozinka().equalsIgnoreCase(lozinka)) {
+				return admin;
+			}
+		}
+		return null;
+	}
 }
 
 	
