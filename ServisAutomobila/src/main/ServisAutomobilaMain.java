@@ -2,6 +2,7 @@ package main;
 
 
 import java.io.ObjectInputStream.GetField
+
 ;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -15,7 +16,7 @@ import servis.Automobil;
 import servis.Servis;
 import servis.ServisnaKnjizica;
 import util.CitanjeFajlova;
-import util.PisanjeFajlova;
+
 
 
 public class ServisAutomobilaMain {
@@ -29,6 +30,7 @@ public class ServisAutomobilaMain {
 		citanje.ucitajSKnjizice();
 		citanje.ucitajAutomobile();
 		citanje.ucitajDelove();
+
 		
 		
 		Prijava prijavaProzor = new Prijava(citanje);

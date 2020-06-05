@@ -10,8 +10,11 @@ import javax.swing.JMenuItem;
 
 import guiFormeZaPrikaz.AdminPikaz;
 import guiFormeZaPrikaz.AutomobilPrikaz;
+import guiFormeZaPrikaz.DeloviPrikaz;
+import guiFormeZaPrikaz.KnjizicePrikaz;
 import guiFormeZaPrikaz.MusterijeProzor;
 import guiFormeZaPrikaz.ServiseriPrikaz;
+import guiFormeZaPrikaz.ServisiPrikaz;
 import korisnici.Administrator;
 import util.CitanjeFajlova;
 
@@ -89,6 +92,33 @@ public class GlavniProzor extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				AutomobilPrikaz ap = new AutomobilPrikaz(citanje);
 				ap.setVisible(true);
+				
+			}
+		});
+		deloviItem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				DeloviPrikaz dp = new DeloviPrikaz(citanje);
+				dp.setVisible(true);
+				
+			}
+		});
+		servisItem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ServisiPrikaz sp = new ServisiPrikaz(citanje);
+				sp.setVisible(true);
+				
+			}
+		});
+		knjiziceItem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				KnjizicePrikaz kp = new KnjizicePrikaz(citanje);
+				kp.setVisible(true);
 				
 			}
 		});

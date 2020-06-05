@@ -11,8 +11,8 @@ public class Administrator extends Korisnik {
 	}
 
 	public Administrator(int id,String ime, String prezime, String jmbg, Pol pol, String adresa, String brojTelefona,
-			String korisnickoIme, String lozinka, double plata) {
-		super(id,ime, prezime, jmbg, pol, adresa, brojTelefona, korisnickoIme, lozinka);
+			String korisnickoIme, String lozinka, double plata,boolean obrisan) {
+		super(id,ime, prezime, jmbg, pol, adresa, brojTelefona, korisnickoIme, lozinka,obrisan);
 		this.plata = plata;
 	}
 

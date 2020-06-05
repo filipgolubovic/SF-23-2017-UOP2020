@@ -13,6 +13,7 @@ public abstract class Korisnik {
 	protected String brojTelefona;
 	protected String korisnickoIme;
 	protected String lozinka;
+	protected boolean obrisan;
 	
 	public Korisnik() {
 		super();
@@ -25,10 +26,11 @@ public abstract class Korisnik {
 		this.brojTelefona = "";
 		this.korisnickoIme = "";
 		this.lozinka = "";
+		this.obrisan = false;
 	}
 
 	public Korisnik(int id,String ime, String prezime, String jmbg, Pol pol, String adresa, String brojTelefona,
-			String korisnickoIme, String lozinka) {
+			String korisnickoIme, String lozinka,boolean obrisan) {
 		super();
 		this.id = id;
 		this.ime = ime;
@@ -39,6 +41,7 @@ public abstract class Korisnik {
 		this.brojTelefona = brojTelefona;
 		this.korisnickoIme = korisnickoIme;
 		this.lozinka = lozinka;
+		this.obrisan = obrisan;
 	}
 	
 
@@ -113,12 +116,19 @@ public abstract class Korisnik {
 	public void setLozinka(String lozinka) {
 		this.lozinka = lozinka;
 	}
+	public boolean isObrisan() {
+		return obrisan;
+	}
+
+	public void setObrisan(boolean obrisan) {
+		this.obrisan = obrisan;
+	}
 
 	@Override
 	public String toString() {
 		return "Korisnik [id=" + id + ", ime=" + ime + ", prezime=" + prezime + ", jmbg=" + jmbg + ", pol=" + pol
 				+ ", adresa=" + adresa + ", brojTelefona=" + brojTelefona + ", korisnickoIme=" + korisnickoIme
-				+ ", lozinka=" + lozinka + "]";
+				+ ", lozinka=" + lozinka + ",obrisan="+obrisan+"]";
 	}
 
 	

@@ -13,8 +13,8 @@ public class Serviser extends Korisnik {
 	}
 
 	public Serviser(int id,String ime, String prezime, String jmbg, Pol pol, String adresa, String brojTelefona,
-			String korisnickoIme, String lozinka, double plata, SpecijalizacijaServisera specijalizacija) {
-		super(id,ime, prezime, jmbg, pol, adresa, brojTelefona, korisnickoIme, lozinka);
+			String korisnickoIme, String lozinka, double plata, SpecijalizacijaServisera specijalizacija,boolean obrisan) {
+		super(id,ime, prezime, jmbg, pol, adresa, brojTelefona, korisnickoIme, lozinka,obrisan);
 		this.plata = plata;
 		this.specijalizacija = specijalizacija;
 	}

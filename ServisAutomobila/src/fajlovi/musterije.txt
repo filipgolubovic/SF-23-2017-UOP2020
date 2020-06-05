@@ -1,3 +1,5 @@
-11|Petar|Petrovic|pera|1234|0|77|Knez Mihajlova 16|111-888|50
-12|Marko|Markovic|mare|12345|0|66|Knez Milosa 33|111-999|150
-13|Jovana|Jovanovic|jova|12346|1|55|Narodnog Fronta 2|111-555|250
+11|Petar|Petrovic|pera|1234|0|77|Knez Mihajlova 16|111-888|50|false
+12|Marko|Markovic|mare|12345|0|66|Knez Milosa 33|111-999|150|false
+13|Jovana|Jovanovic|jova|12346|1|55|Narodnog Fronta 2|111-555|250|false
+222|fdsf|Jovanovifdsfc|jovfdsfsa|12346|1|55|Narodnog Fronta 2|111-555|250|false
+12223|Jofdsfvana|Jofdsfvanovic|josssva|12346|1|55|Narodnog Fronta 2|111-555|250|false

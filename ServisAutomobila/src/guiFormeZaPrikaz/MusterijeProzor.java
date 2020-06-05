@@ -1,18 +1,23 @@
 package guiFormeZaPrikaz;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
+import guiFromeZaDodavanjeiIzmene.MusterijaForma;
 import korisnici.Musterija;
+import main.ServisAutomobilaMain;
 import slike.*;
 import util.CitanjeFajlova;
 
@@ -49,7 +54,7 @@ public class MusterijeProzor extends JFrame {
 		mainToolBar.add(btnDelete);
 		add(mainToolBar, BorderLayout.NORTH);
 		
-		String[] zaglavlja = new String[]{"Id","Ime","Prezime","Korisnicko ime","Lozinka","Pol","JMBG","Adresa","Telefon","Bodovi",};
+		String[] zaglavlja = new String[]{"Id","Ime","Prezime","Korisnicko ime","Lozinka","Pol","JMBG","Adresa","Telefon","Bodovi","Obrisan"};
 		ArrayList<Musterija>musterije = CitanjeFajlova.ucitajMusterije();
 		Object[][] sadrzaj = new Object[musterije.size()][zaglavlja.length];
 		
@@ -65,6 +70,7 @@ public class MusterijeProzor extends JFrame {
 			sadrzaj[i][7] = musterija.getAdresa();
 			sadrzaj[i][8] = musterija.getBrojTelefona();
 			sadrzaj[i][9] = musterija.getBrojBodova();
+			sadrzaj[i][10] = musterija.isObrisan();
 		}
 		tableModel = new DefaultTableModel(sadrzaj,zaglavlja);
 		musterijeTabela = new JTable(tableModel);
@@ -79,6 +85,55 @@ public class MusterijeProzor extends JFrame {
 		add(scrollPane,BorderLayout.CENTER);
 	}
 	private void initActions() {
-		
+		btnDelete.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int red = musterijeTabela.getSelectedRow();
+				if(red == -1) {
+					JOptionPane.showMessageDialog(null, "Morate odabrati red u tabeli.", "Greska", JOptionPane.WARNING_MESSAGE);
+				}else {
+					String korIme = tableModel.getValueAt(red, 3).toString();
+					Musterija musterija = citanje.nadjiMusteriju(korIme);
+				
+					
+					int izbor = JOptionPane.showConfirmDialog(null, "Da li ste sigurni da zelite da obrisete musteriju?", korIme + " - Potvrda brisanja", JOptionPane.YES_NO_OPTION);
+					if(izbor == JOptionPane.YES_OPTION) {
+						musterija.setObrisan(true);
+						tableModel.removeRow(red);
+						citanje.snimiMusterije();
+					}
+				}
+				
+			}
+		});
+		btnAdd.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				MusterijaForma mf = new MusterijaForma(citanje, null);
+				mf.setVisible(true);
+				
+			}
+		});
+		btnEdit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int red = musterijeTabela.getSelectedRow();
+				if(red == -1) {
+					JOptionPane.showMessageDialog(null, "Morate odabrati red u tabeli.", "Greska", JOptionPane.WARNING_MESSAGE);
+				}else {
+					String korIme = tableModel.getValueAt(red, 3).toString();
+					Musterija musterija = citanje.nadjiMusteriju(korIme);
+					if(musterija == null) {
+						JOptionPane.showMessageDialog(null, "Greska prilikom pronalazenje musterije sa tim korisickim imenom", "Greska", JOptionPane.WARNING_MESSAGE);
+					}else {
+						MusterijaForma mf = new MusterijaForma(citanje, musterija);
+						mf.setVisible(true);
+					}
+				}
+			}
+		});
 	}
 }
