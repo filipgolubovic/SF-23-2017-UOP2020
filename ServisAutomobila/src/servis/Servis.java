@@ -13,8 +13,9 @@ public class Servis {
 	private Date datum;
 	private String opis;
 	private ArrayList<Deo>listaDelova;
+	private boolean obrisan;
 	
-	public Servis(int id,Automobil auto, Serviser serviser, Date datum, String opis, ArrayList<Deo> listaDelova) {
+	public Servis(int id,Automobil auto, Serviser serviser, Date datum, String opis, ArrayList<Deo> listaDelova,boolean obrisan) {
 		super();
 		this.id = id;
 		this.auto = auto;
@@ -22,8 +23,16 @@ public class Servis {
 		this.datum = datum;
 		this.opis = opis;
 		this.listaDelova = listaDelova;
+		this.obrisan = obrisan;
+		
 	}
-	
+	public boolean isObrisan() {
+		return obrisan;
+	}
+
+	public void setObrisan(boolean obrisan) {
+		this.obrisan = obrisan;
+	}
 	
 	public int getId() {
 		return id;

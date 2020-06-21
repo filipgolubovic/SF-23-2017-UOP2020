@@ -10,14 +10,23 @@ public class Deo {
 	private Model model;
 	private String naziv;
 	private double cena;
+	private boolean obrisan;
 	
-	public Deo(int id,Marka marka, Model model, String naziv, double cena) {
+	public Deo(int id,Marka marka, Model model, String naziv, double cena,boolean obrisan) {
 		super();
 		this.id = id;
 		this.marka = marka;
 		this.model = model;
 		this.naziv = naziv;
 		this.cena = cena;
+		this.obrisan = obrisan;
+	}
+	public boolean isObrisan() {
+		return obrisan;
+	}
+
+	public void setObrisan(boolean obrisan) {
+		this.obrisan = obrisan;
 	}
 	
 	public int getId() {

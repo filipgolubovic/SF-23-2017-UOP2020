@@ -15,6 +15,7 @@ public class Automobil {
 	private String snagaMotora;
 	private String zapreminaMotora;
 	private VrstaGoriva vrstaGoriva;
+	private boolean obrisan;
 	
 	public Automobil() {
 		this.id = 0;
@@ -25,10 +26,11 @@ public class Automobil {
 		this.snagaMotora = "";
 		this.zapreminaMotora = "";
 		this.vrstaGoriva = VrstaGoriva.Benzin;
+		this.obrisan = false;
 	}
 	
 	public Automobil(int id,Musterija vlasnik, Marka marka, Model model, int godiste, String snagaMotora,
-			String zapreminaMotora, VrstaGoriva vrstaGoriva) {
+			String zapreminaMotora, VrstaGoriva vrstaGoriva, boolean obrisan) {
 		super();
 		this.id = id;
 		this.vlasnik = vlasnik;
@@ -38,6 +40,14 @@ public class Automobil {
 		this.snagaMotora = snagaMotora;
 		this.zapreminaMotora = zapreminaMotora;
 		this.vrstaGoriva = vrstaGoriva;
+		this.obrisan = obrisan;
+	}
+	public boolean isObrisan() {
+		return obrisan;
+	}
+
+	public void setObrisan(boolean obrisan) {
+		this.obrisan = obrisan;
 	}
 	
 

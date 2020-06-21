@@ -1,17 +1,23 @@
 package guiFormeZaPrikaz;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
+import guiFromeZaDodavanjeiIzmene.AutomobilForma;
+import guiFromeZaDodavanjeiIzmene.DeoForma;
+import servis.Automobil;
 import servis.Deo;
 import slike.*;
 import util.CitanjeFajlova;
@@ -50,11 +56,11 @@ public class DeloviPrikaz extends JFrame {
 		add(mainToolBar, BorderLayout.NORTH);
 		
 		String[] zaglavlja = new String[]{"Id","Marka","Model","Naziv","Cena"};
-		ArrayList<Deo>delovi = CitanjeFajlova.ucitajDelove();
-		Object[][] sadrzaj = new Object[delovi.size()][zaglavlja.length];
 		
-		for(int i=0; i<delovi.size();i++) {
-			Deo deo = delovi.get(i);
+		Object[][] sadrzaj = new Object[citanje.sviNeobrisaniDelovi().size()][zaglavlja.length];
+		
+		for(int i=0; i<citanje.sviNeobrisaniDelovi().size();i++) {
+			Deo deo = citanje.sviNeobrisaniDelovi().get(i);
 			sadrzaj[i][0] = deo.getId();
 			sadrzaj[i][1] = deo.getMarka();
 			sadrzaj[i][2] = deo.getModel();
@@ -75,6 +81,57 @@ public class DeloviPrikaz extends JFrame {
 		add(scrollPane,BorderLayout.CENTER);
 	}
 	private void initActions() {
-		
+		btnDelete.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int red = deloviTabela.getSelectedRow();
+				if(red == -1) {
+					JOptionPane.showMessageDialog(null, "Morate odabrati red u tabeli.", "Greska", JOptionPane.WARNING_MESSAGE);
+				}else {
+					String naziv  = tableModel.getValueAt(red, 3).toString();
+					Deo deo = citanje.nadjiDeo(naziv);
+				
+					
+					int izbor = JOptionPane.showConfirmDialog(null, "Da li ste sigurni da zelite da obrisete deo?", deo.getNaziv() + " - Potvrda brisanja", JOptionPane.YES_NO_OPTION);
+					if(izbor == JOptionPane.YES_OPTION) {
+						deo.setObrisan(true);
+						tableModel.removeRow(red);
+						citanje.snimiDelove();
+					}
+				}
+				
+			}
+		});
+		btnAdd.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				DeoForma df = new DeoForma(citanje, null);
+				df.setVisible(true);
+				
+			}
+		});
+		btnEdit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int red = deloviTabela.getSelectedRow();
+				if(red == -1) {
+					JOptionPane.showMessageDialog(null, "Morate odabrati red u tabeli.", "Greska", JOptionPane.WARNING_MESSAGE);
+				}else {
+					String naziv  = tableModel.getValueAt(red, 3).toString();
+					Deo deo = citanje.nadjiDeo(naziv);
+				
+				
+					if(deo == null) {
+						JOptionPane.showMessageDialog(null, "Greska prilikom pronalazenje dela sa tim nazivom!", "Greska", JOptionPane.WARNING_MESSAGE);
+					}else {
+						DeoForma df = new DeoForma(citanje, deo);
+						df.setVisible(true);
+					}
+				}
+			}
+		});
 	}
 }

@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 
 import korisnici.Administrator;
 import korisnici.Musterija;
+import korisnici.Serviser;
 import net.miginfocom.swing.MigLayout;
 import util.CitanjeFajlova;
 
@@ -25,7 +26,9 @@ public class Prijava extends JFrame {
 	private JTextField txtKorIme = new JTextField(20);
 	private JLabel lblLozinka = new JLabel("Lozinka");
 	private JPasswordField pfLozinka = new JPasswordField(20);
-	private JButton btnPrijava = new JButton("Prijava");
+	private JButton btnAdmin = new JButton("Admin prijava");
+	private JButton btnServiser = new JButton("Serviser prijava");
+	private JButton btnMusterija = new JButton("Musterija prijava");
 	private JButton btnIzlaz = new JButton("Izlaz");
 	
 	private CitanjeFajlova citanje;
@@ -65,10 +68,13 @@ public class Prijava extends JFrame {
 		add(lblLozinka);
 		add(pfLozinka);
 		add(new JLabel());
-		add(btnPrijava,"split 2");
+		add(btnAdmin,"split 2");
+		add(btnServiser);
+		add(new JLabel());
+		add(btnMusterija,"split 2");
 		add(btnIzlaz);
 		
-		getRootPane().setDefaultButton(btnPrijava);
+		
 	}
 	public void initActions() {
 		btnIzlaz.addActionListener(new ActionListener() {
@@ -79,7 +85,7 @@ public class Prijava extends JFrame {
 				Prijava.this.setVisible(false);
 			}
 		});
-		btnPrijava.addActionListener(new ActionListener() {
+		btnAdmin.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -90,7 +96,7 @@ public class Prijava extends JFrame {
 					JOptionPane.showMessageDialog(null, "Niste uneli sve podatke za prijavu", "Greska",JOptionPane.WARNING_MESSAGE);
 					}else{
 						Administrator prijavljenA = citanje.loginA(korisnickoIme, sifra);
-						Musterija prijavljenM = citanje.loginM(korisnickoIme, sifra);
+						
 						if(prijavljenA == null) {
 							JOptionPane.showMessageDialog(null, "Pogresni login podaci", "Greska", JOptionPane.WARNING_MESSAGE);
 						}else{
@@ -102,6 +108,53 @@ public class Prijava extends JFrame {
 					}
 			};
 		});
+		btnMusterija.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String korisnickoIme = txtKorIme.getText().trim();
+				String sifra = new String(pfLozinka.getPassword()).trim();
+				
+				if(korisnickoIme.equals("") || sifra.equals("")) {
+					JOptionPane.showMessageDialog(null, "Niste uneli sve podatke za prijavu", "Greska",JOptionPane.WARNING_MESSAGE);
+					}else{
+						Musterija prijavljenM = citanje.loginM(korisnickoIme, sifra);
+						
+						if(prijavljenM == null) {
+							JOptionPane.showMessageDialog(null, "Pogresni login podaci", "Greska", JOptionPane.WARNING_MESSAGE);
+						}else{
+							Prijava.this.dispose();
+							Prijava.this.setVisible(false);
+							MusterijaPocetna mp = new MusterijaPocetna(citanje, prijavljenM);
+							mp.setVisible(true);
+						}
+					}
+			};
+		});
+		btnServiser.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String korisnickoIme = txtKorIme.getText().trim();
+				String sifra = new String(pfLozinka.getPassword()).trim();
+				
+				if(korisnickoIme.equals("") || sifra.equals("")) {
+					JOptionPane.showMessageDialog(null, "Niste uneli sve podatke za prijavu", "Greska",JOptionPane.WARNING_MESSAGE);
+					}else{
+						Serviser prijavljenS = citanje.loginS(korisnickoIme, sifra);
+						
+						if(prijavljenS == null) {
+							JOptionPane.showMessageDialog(null, "Pogresni login podaci", "Greska", JOptionPane.WARNING_MESSAGE);
+						}else{
+							Prijava.this.dispose();
+							Prijava.this.setVisible(false);
+							ServiserPocetna sp = new ServiserPocetna(citanje, prijavljenS);
+							sp.setVisible(true);
+						}
+					}
+			};
+		});
+		
 	}
-	}
+}
 

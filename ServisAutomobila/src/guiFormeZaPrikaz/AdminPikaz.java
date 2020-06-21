@@ -1,18 +1,24 @@
 package guiFormeZaPrikaz;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
+import guiFromeZaDodavanjeiIzmene.AdminForma;
+import guiFromeZaDodavanjeiIzmene.MusterijaForma;
 import korisnici.Administrator;
+import korisnici.Musterija;
 import util.CitanjeFajlova;
 import slike.*;
 
@@ -49,11 +55,10 @@ public class AdminPikaz extends JFrame {
 		add(mainToolBar, BorderLayout.NORTH);
 		
 		String[] zaglavlja = new String[]{"Id","Ime","Prezime","Korisnicko ime","Lozinka","Pol","JMBG","Adresa","Telefon","Plata",};
-		ArrayList<Administrator>administratori = CitanjeFajlova.ucitavanjeAdmina();
-		Object[][] sadrzaj = new Object[administratori.size()][zaglavlja.length];
+		Object[][] sadrzaj = new Object[citanje.sviNeobrisaniAdmini().size()][zaglavlja.length];
 		
-		for(int i=0; i<administratori.size();i++) {
-			Administrator admin = administratori.get(i);
+		for(int i=0; i<citanje.sviNeobrisaniAdmini().size();i++) {
+			Administrator admin = citanje.sviNeobrisaniAdmini().get(i);
 			sadrzaj[i][0] = admin.getId();
 			sadrzaj[i][1] = admin.getIme();
 			sadrzaj[i][2] = admin.getPrezime();
@@ -78,6 +83,55 @@ public class AdminPikaz extends JFrame {
 		add(scrollPane,BorderLayout.CENTER);
 	}
 	private void initActions() {
-		
+		btnDelete.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int red = adminTabela.getSelectedRow();
+				if(red == -1) {
+					JOptionPane.showMessageDialog(null, "Morate odabrati red u tabeli.", "Greska", JOptionPane.WARNING_MESSAGE);
+				}else {
+					String korIme = tableModel.getValueAt(red, 3).toString();
+					Administrator admin = citanje.nadjiAdmina(korIme);
+				
+					
+					int izbor = JOptionPane.showConfirmDialog(null, "Da li ste sigurni da zelite da obrisete admina?", korIme + " - Potvrda brisanja", JOptionPane.YES_NO_OPTION);
+					if(izbor == JOptionPane.YES_OPTION) {
+						admin.setObrisan(true);
+						tableModel.removeRow(red);
+						citanje.snimiMusterije();
+					}
+				}
+				
+			}
+		});
+		btnAdd.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				AdminForma af = new AdminForma(citanje, null);
+				af.setVisible(true);
+				
+			}
+		});
+		btnEdit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int red = adminTabela.getSelectedRow();
+				if(red == -1) {
+					JOptionPane.showMessageDialog(null, "Morate odabrati red u tabeli.", "Greska", JOptionPane.WARNING_MESSAGE);
+				}else {
+					String korIme = tableModel.getValueAt(red, 3).toString();
+					Administrator admin = citanje.nadjiAdmina(korIme);
+					if(admin == null) {
+						JOptionPane.showMessageDialog(null, "Greska prilikom pronalazenje admina sa tim korisickim imenom", "Greska", JOptionPane.WARNING_MESSAGE);
+					}else {
+						AdminForma af = new AdminForma(citanje, admin);
+						af.setVisible(true);
+					}
+				}
+			}
+		});
 	}
 }

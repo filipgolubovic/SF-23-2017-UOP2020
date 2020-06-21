@@ -52,15 +52,14 @@ public class KnjizicePrikaz extends JFrame {
 		add(mainToolBar, BorderLayout.NORTH);
 		
 		String[] zaglavlja = new String[]{"Id","Marka","Model","Serviseri",};
-		ArrayList<ServisnaKnjizica>knjizice = CitanjeFajlova.ucitajSKnjizice();
-		Object[][] sadrzaj = new Object[knjizice.size()][zaglavlja.length];
 		
-		for(int i=0; i<knjizice.size();i++) {
-			ServisnaKnjizica knjizica = knjizice.get(i);
+		Object[][] sadrzaj = new Object[citanje.sviNeobrisaneSKnjizice().size()][zaglavlja.length];
+		
+		for(int i=0; i<citanje.sviNeobrisaneSKnjizice().size();i++) {
+			ServisnaKnjizica knjizica = citanje.sviNeobrisaneSKnjizice().get(i);
 			sadrzaj[i][0] = knjizica.getId();
-			sadrzaj[i][1] = knjizica.getAutomobil().getMarka();
-			sadrzaj[i][2] = knjizica.getAutomobil().getModel();
-			sadrzaj[i][3] = knjizica.getListaServisa();
+			sadrzaj[i][1] = knjizica.getAutomobil() == null ? "--" :knjizica.getAutomobil().getId();
+			sadrzaj[i][2] = knjizica.getListaServisa();
 		
 		}
 		tableModel = new DefaultTableModel(sadrzaj,zaglavlja);

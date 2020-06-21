@@ -23,8 +23,28 @@ import uloge.SpecijalizacijaServisera;
 import uloge.VrstaGoriva;
 
 public class CitanjeFajlova {
-	public static ArrayList<Administrator> ucitavanjeAdmina(){
-		ArrayList<Administrator>administratori = new ArrayList<Administrator>();
+	
+	private ArrayList<Musterija>musterije;
+	private ArrayList<Automobil>automobili;
+	private ArrayList<Administrator>administratori;
+	private ArrayList<Serviser>serviseri;
+	private ArrayList<Servis>servisi;
+	private ArrayList<Deo>delovi;
+	private ArrayList<ServisnaKnjizica>sKnjizice;
+	
+	public CitanjeFajlova() {
+		this.musterije = new ArrayList<Musterija>();
+		this.automobili = new ArrayList<Automobil>();
+		this.administratori = new ArrayList<Administrator>();
+		this.serviseri = new ArrayList<Serviser>();
+		this.servisi = new ArrayList<Servis>();
+		this.delovi = new ArrayList<Deo>();
+		this.sKnjizice = new ArrayList<ServisnaKnjizica>();
+	}
+	
+	
+	public ArrayList<Administrator> ucitavanjeAdmina(){
+		
 		try {
 			File file = new File("src/fajlovi/administratori.txt");
 			BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -52,11 +72,14 @@ public class CitanjeFajlova {
 			
 		} catch (IOException e) {
 			System.out.println("Greska prilikom citanja iz fajla!");
+		}catch (NumberFormatException e) {
+			e.printStackTrace();
 		}
 		return administratori;
+		
 	}
-	public static ArrayList<Automobil>ucitajAutomobile(){
-		ArrayList<Automobil>automobili = new ArrayList<Automobil>();
+	public ArrayList<Automobil>ucitajAutomobile(){
+		
 		try {
 			
 			File file = new File("src/fajlovi/automobili.txt");
@@ -78,8 +101,9 @@ public class CitanjeFajlova {
 				String kubikaza = lineSplit[6];
 				int indexGoriva = Integer.parseInt(lineSplit[7]);
 				VrstaGoriva gorivo = VrstaGoriva.values()[indexGoriva];
+				boolean obrisan = Boolean.parseBoolean(lineSplit[8]);
 				
-				Automobil auto = new Automobil(id, vlasnik, marka, model, godiste, konjaza, kubikaza, gorivo);
+				Automobil auto = new Automobil(id, vlasnik, marka, model, godiste, konjaza, kubikaza, gorivo,obrisan);
 				if(vlasnik != null) {
 					auto.setVlasnik(vlasnik);
 				}
@@ -91,11 +115,13 @@ public class CitanjeFajlova {
 			
 		 catch (IOException e) {
 			System.out.println("Greska prilikom citanja iz falja!");
+		}catch(NumberFormatException n) {
+			n.printStackTrace();
 		}
 		return automobili;
 	}
-	public static ArrayList<Musterija>ucitajMusterije(){
-		ArrayList<Musterija>musterije = new ArrayList<Musterija>();
+	public ArrayList<Musterija>ucitajMusterije(){
+		
 		try {
 			File file = new File("src/fajlovi/musterije.txt");
 			BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -125,11 +151,13 @@ public class CitanjeFajlova {
 		}
 		 catch (IOException e) {
 			System.out.println("Greska prilikom citanja iz falja!");
+		}catch (NumberFormatException e) {
+			System.out.println("Neka greska");
 		}
 		return musterije;
 	}
-	public static ArrayList<Serviser>ucitajServisere(){
-		ArrayList<Serviser>serviseri = new ArrayList<Serviser>();
+	public ArrayList<Serviser>ucitajServisere(){
+		
 		try {
 			File file = new File("src/fajlovi/serviseri.txt");
 			BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -160,11 +188,13 @@ public class CitanjeFajlova {
 		}
 		 catch (IOException e) {
 			System.out.println("Greska prilikom citanja iz falja!");
+		}catch (NumberFormatException e) {
+			e.printStackTrace();
 		}
 		return serviseri;
 	}
-	public static ArrayList<Deo>ucitajDelove(){
-		ArrayList<Deo>delovi = new ArrayList<Deo>();
+	public  ArrayList<Deo>ucitajDelove(){
+		
 		try {
 			File file = new File("src/fajlovi/delovi.txt");
 			BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -179,8 +209,9 @@ public class CitanjeFajlova {
 				Marka marka = Marka.values()[indexMarke];
 				String naziv = lineSplit[3];
 				Double cena = Double.parseDouble(lineSplit[4]);
+				boolean obrisan = Boolean.parseBoolean(lineSplit[5]);
 				
-				Deo deo = new Deo(id, marka, model, naziv, cena);
+				Deo deo = new Deo(id, marka, model, naziv, cena,obrisan);
 				delovi.add(deo);
 				
 			}
@@ -188,11 +219,13 @@ public class CitanjeFajlova {
 		}
 		 catch (IOException e) {
 			System.out.println("Greska prilikom citanja iz falja!");
+		}catch (NumberFormatException n) {
+			n.printStackTrace();
 		}
 		return delovi;
 	}
-	public static ArrayList<ServisnaKnjizica>ucitajSKnjizice(){
-		ArrayList<ServisnaKnjizica>sKnjizice = new ArrayList<ServisnaKnjizica>();
+	public ArrayList<ServisnaKnjizica>ucitajSKnjizice(){
+		
 		try {
 			File file = new File("src/fajlovi/servisnaKnjizica.txt");
 			BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -204,7 +237,8 @@ public class CitanjeFajlova {
 				int indexAuta = Integer.parseInt(lineSplit[1]);
 				Automobil auto = pronadjiAutomobil(indexAuta);
 				ArrayList<Servis>servisi = new ArrayList<Servis>();
-				ServisnaKnjizica knjizica = new ServisnaKnjizica(id, auto, servisi);
+				boolean obrisan = Boolean.parseBoolean(lineSplit[2]);
+				ServisnaKnjizica knjizica = new ServisnaKnjizica(id, auto, servisi,obrisan);
 				if(auto!=null) {
 					knjizica.setAutomobil(auto);
 				}
@@ -219,9 +253,10 @@ public class CitanjeFajlova {
 			System.out.println("Greska prilikom citanja iz falja!");
 		}
 		return sKnjizice;
+		
 	}
-	public static ArrayList<Servis>ucitajServise(){
-		ArrayList<Servis>servisi = new ArrayList<Servis>();
+	public ArrayList<Servis>ucitajServise(){
+		
 		try {
 			File file = new File("src/fajlovi/servis.txt");
 			BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -237,7 +272,8 @@ public class CitanjeFajlova {
 				String opis = lineSplit[4];
 				Date datum = new Date(2020, 11, 12);
 				ArrayList<Deo>delovi = new ArrayList<Deo>();
-				Servis servis = new Servis(id, auto, serviser, datum, opis, delovi);
+				boolean obrisan = Boolean.parseBoolean(lineSplit[5]);
+				Servis servis = new Servis(id, auto, serviser, datum, opis, delovi,obrisan);
 				if(auto!=null) {
 					servis.setAuto(auto);
 				}
@@ -250,31 +286,35 @@ public class CitanjeFajlova {
 		}
 		 catch (IOException e) {
 			System.out.println("Greska prilikom citanja iz falja!");
+		}catch (NumberFormatException e) {
+			e.printStackTrace();
 		}
 		return servisi;
 	}
 
 
 	
-	public static Musterija pronadjiMusteriju(int id) {
-		ArrayList<Musterija>uciteneMusterije = ucitajMusterije();
-		for (Musterija musterija : uciteneMusterije) {
+	public Musterija pronadjiMusteriju(int id) {
+		
+		for (Musterija musterija : musterije) {
 			if(musterija.getId() == id) {
 				return musterija;
 			}
 		}return null;
 	}
-	public static Automobil pronadjiAutomobil(int id) {
-		ArrayList<Automobil>ucitaniAutomobili = ucitajAutomobile();
-		for (Automobil automobil : ucitaniAutomobili) {
+	public Automobil pronadjiAutomobil(int id) {
+		
+		for (Automobil automobil : automobili) {
 			if(automobil.getId() == id) {
 				return automobil;
 			}
 		}return null;
+	
 	}
-	public static Serviser pronadjiServisera(int id) {
-		ArrayList<Serviser>ucitaniServiseri = ucitajServisere();
-		for (Serviser servis : ucitaniServiseri) {
+	
+	public Serviser pronadjiServisera(int id) {
+		
+		for (Serviser servis : serviseri) {
 			if(servis.getId() == id) {
 				return servis;
 			}
@@ -282,8 +322,8 @@ public class CitanjeFajlova {
 	}
 	
 	public Musterija loginM(String korIme, String lozinka) {
-		ArrayList<Musterija>ucitaneMusterije = ucitajMusterije();
-		for (Musterija musterija : ucitaneMusterije) {
+		
+		for (Musterija musterija : musterije) {
 			if(musterija.getKorisnickoIme().equalsIgnoreCase(korIme) && musterija.getLozinka().equalsIgnoreCase(lozinka)) {
 				return musterija;
 			}
@@ -291,19 +331,67 @@ public class CitanjeFajlova {
 		return null;
 	}
 	public Administrator loginA(String korIme, String lozinka) {
-		ArrayList<Administrator>uciteniAdmini = ucitavanjeAdmina();
-		for (Administrator admin : uciteniAdmini) {
+		;
+		for (Administrator admin : administratori) {
 			if(admin.getKorisnickoIme().equalsIgnoreCase(korIme) && admin.getLozinka().equalsIgnoreCase(lozinka)) {
 				return admin;
 			}
 		}
 		return null;
 	}
-	public Musterija nadjiMusteriju(String korisnickoIme) {
-		ArrayList<Musterija>ucitaneMusterije = ucitajMusterije();
-		for (Musterija musterija : ucitaneMusterije) {
+	public Serviser loginS(String korIme, String lozinka) {
+		;
+		for (Serviser serviser : serviseri) {
+			if(serviser.getKorisnickoIme().equalsIgnoreCase(korIme) && serviser.getLozinka().equalsIgnoreCase(lozinka)) {
+				return serviser;
+			}
+		}
+		return null;
+	}
+	public Musterija nadjiMusteriju(String korisnickoIme) {	
+		for (Musterija musterija : musterije) {
 			if (musterija.getKorisnickoIme().equals(korisnickoIme)) {
 				return musterija;
+			}
+		}
+		return null;
+	}
+	public Administrator nadjiAdmina(String korisnickoIme) {	
+		for (Administrator admin : administratori) {
+			if (admin.getKorisnickoIme().equals(korisnickoIme)) {
+				return admin;
+			}
+		}
+		return null;
+	}
+	public Serviser nadjiServisera(String korisnickoIme) {	
+		for (Serviser serviser : serviseri) {
+			if (serviser.getKorisnickoIme().equals(korisnickoIme)) {
+				return serviser;
+			}
+		}
+		return null;
+	}
+	public Automobil nadjiAuto(String snaga) {	
+		for (Automobil auto : automobili) {
+			if (auto.getSnagaMotora().equals(snaga)) {
+				return auto;
+			}
+		}
+		return null;
+	}
+	public Deo nadjiDeo(String naziv) {	
+		for (Deo deo : delovi) {
+			if (deo.getNaziv().equals(naziv)) {
+				return deo;
+			}
+		}
+		return null;
+	}
+	public Servis nadjiServis(String opis) {	
+		for (Servis servis : servisi) {
+			if (servis.getOpis().equals(opis)) {
+				return servis;
 			}
 		}
 		return null;
@@ -311,24 +399,33 @@ public class CitanjeFajlova {
 
 	public void snimiAutobobile() {
 		try {
-			ArrayList<Automobil>automobili = CitanjeFajlova.ucitajAutomobile();
+			
 			File file = new File("src/fajlovi/automobili.txt");
 			String content = "";
 			for (Automobil auto : automobili) {
-				content += auto.getId() + "|" + auto.getVlasnik() + "|"
-						+ auto.getMarka() + "|" + auto.getModel()+ "|"
-						+ auto.getGodiste() + "|" + auto.getSnagaMotora() + "|" + auto.getZapreminaMotora() + "|" + auto.getVrstaGoriva() + "\n";
+				for (Musterija musterija : musterije) {
+					if (auto.getVlasnik() == pronadjiMusteriju(musterija.getId())) {
+						content += auto.getId() + "|" + auto.getVlasnik().getId() + "|" + auto.getMarka().ordinal()
+								+ "|" + auto.getModel().ordinal() + "|" + auto.getGodiste() + "|"
+								+ auto.getSnagaMotora() + "|" + auto.getZapreminaMotora() + "|"
+								+ auto.getVrstaGoriva().ordinal() + "|" + auto.isObrisan() + "\n";
+					}
+				} 
 			}
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 			writer.write(content);
 			writer.close();
+		
 		} catch (IOException e) {
 			System.out.println("Greska prilikom snimanja automobila.");
+		}catch (NullPointerException e) {
+			e.printStackTrace();
 		}
 	}
+
 	public void snimiMusterije() {
 		try {
-			ArrayList<Musterija>musterije = ucitajMusterije();
+			
 			File file = new File("src/fajlovi/musterije.txt");
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 			String content = "";
@@ -349,13 +446,13 @@ public class CitanjeFajlova {
 	}
 	public void snimiAdmine() {
 		try {
-			ArrayList<Administrator>administratori = CitanjeFajlova.ucitavanjeAdmina();
+		
 			File file = new File("src/fajlovi/administratori.txt");
 			String content = "";
 			for (Administrator admin : administratori) {
 				content += admin.getId() + "|" + admin.getIme() + "|"
 						+ admin.getPrezime() + "|" + admin.getKorisnickoIme()+ "|"
-						+ admin.getLozinka() + "|" + admin.getPol() + "|" + admin.getJmbg() + "|" + admin.getAdresa() + "|" + admin.getBrojTelefona()+ "|" + admin.getPlata()+ "\n";
+						+ admin.getLozinka() + "|" + admin.getPol().ordinal() + "|" + admin.getJmbg() + "|" + admin.getAdresa() + "|" + admin.getBrojTelefona()+ "|" + admin.getPlata()+admin.isObrisan()+ "\n";
 			}
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 			writer.write(content);
@@ -367,13 +464,13 @@ public class CitanjeFajlova {
 	}
 	public void snimiServisere() {
 		try {
-			ArrayList<Serviser>serviseri = CitanjeFajlova.ucitajServisere();
+			
 			File file = new File("src/fajlovi/serviseri.txt");
 			String content = "";
 			for (Serviser serviser : serviseri) {
 				content += serviser.getId() + "|" + serviser.getIme() + "|"
 						+ serviser.getPrezime() + "|" + serviser.getKorisnickoIme()+ "|"
-						+ serviser.getLozinka() + "|" + serviser.getPol() + "|" + serviser.getJmbg() + "|" + serviser.getAdresa() + "|" + serviser.getBrojTelefona()+ "|" + serviser.getPlata()+"|" + serviser.getSpecijalizacija()+ "\n";
+						+ serviser.getLozinka() + "|" + serviser.getPol().ordinal() + "|" + serviser.getJmbg() + "|" + serviser.getAdresa() + "|" + serviser.getBrojTelefona()+ "|" + serviser.getPlata()+"|" + serviser.getSpecijalizacija().ordinal()+ serviser.isObrisan()+"\n";
 			}
 			
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
@@ -385,13 +482,13 @@ public class CitanjeFajlova {
 	}
 	public void snimiDelove() {
 		try {
-			ArrayList<Deo>delovi = CitanjeFajlova.ucitajDelove();
+	
 			File file = new File("src/fajlovi/delovi.txt");
 			String content = "";
 			for (Deo deo : delovi) {
-				content += deo.getId() + "|" + deo.getMarka()+ "|"
-						+ deo.getModel() + "|" + deo.getNaziv()+ "|"
-						+ deo.getCena()+ "\n";
+				content += deo.getId() + "|" + deo.getMarka().ordinal()+ "|"
+						+ deo.getModel().ordinal() + "|" + deo.getNaziv()+ "|"
+						+ deo.getCena()+"|"+ deo.isObrisan()+ "\n";
 			}
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 			writer.write(content);
@@ -402,29 +499,31 @@ public class CitanjeFajlova {
 	}
 	public void snimiServise() {
 		try {
-			ArrayList<Servis>servisi = CitanjeFajlova.ucitajServise();
+			
 			File file = new File("src/fajlovi/servis.txt");
 			String content = "";
 			for (Servis servis : servisi) {
-				content += servis.getId() + "|" + servis.getAuto()+ "|"
-						+ servis.getServiser() + "|" + servis.getDatum()+ "|"
-						+ servis.getOpis()+"|" + servis.getListaDelova()+ "\n";
+				content += servis.getId() + "|" + servis.getAuto().getId()+ "|"
+						+ servis.getServiser().getId() + "|" + servis.getDatum()+ "|"
+						+ servis.getOpis()+"|" + servis.getListaDelova()+"|"+ servis.isObrisan() +  "\n";
 			}
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 			writer.write(content);
 			writer.close();
 		} catch (IOException e) {
 			System.out.println("Greska prilikom snimanja servisa.");
+		}catch (NullPointerException e) {
+			e.printStackTrace();
 		}
 	}
 	public void snimiSKnjizice() {
 		try {
-			ArrayList<ServisnaKnjizica>sKnjizice = CitanjeFajlova.ucitajSKnjizice();
+			
 			File file = new File("src/fajlovi/servisnaKnjizica.txt");
 			String content = "";
 			for (ServisnaKnjizica sKnjizica : sKnjizice) {
 				content += sKnjizica.getId() + "|" + sKnjizica.getAutomobil()+ "|"
-						+ sKnjizica.getListaServisa() +
+						+ sKnjizica.getListaServisa() + "|"+sKnjizica.isObrisan()+
 						"\n";
 			}
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
@@ -434,12 +533,124 @@ public class CitanjeFajlova {
 			System.out.println("Greska prilikom snimanja servisnih knjizica.");
 		}
 	}
-	public void dodajMusteriju(Musterija musterija) {
-		ArrayList<Musterija>musterije = ucitajMusterije();
-		musterije.add(musterija);
+	
+	public void dodajMusteriju(Musterija musterija) {	
+		this.musterije.add(musterija);
 	}
+	public void dodajAdmina(Administrator admin) {	
+		this.administratori.add(admin);
+	}
+	public void dodajServisera(Serviser serviser) {	
+		this.serviseri.add(serviser);
+	}
+	public void dodajAutomobil(Automobil auto) {	
+		this.automobili.add(auto);
+	}
+	public void dodajDeo(Deo deo) {	
+		this.delovi.add(deo);
+	}
+	public void dodajServis(Servis servis) {	
+		this.servisi.add(servis);
+	}
+	public void dodajSKnjizice(ServisnaKnjizica sknjizica) {	
+		this.sKnjizice.add(sknjizica);
+	}
+	public ArrayList<Musterija> sviNeobrisaneMusterije() {
+		ArrayList<Musterija> neobrisani = new ArrayList<Musterija>();
+		for (Musterija musterija : musterije) {
+			if(!musterija.isObrisan()) {
+				neobrisani.add(musterija);
+			}
+		}
+		return neobrisani;
 
 	
+	}
+	public ArrayList<Administrator> sviNeobrisaniAdmini() {
+		ArrayList<Administrator> neobrisani = new ArrayList<Administrator>();
+		for (Administrator admin : administratori) {
+			if(!admin.isObrisan()) {
+				neobrisani.add(admin);
+			}
+		}
+		return neobrisani;
+
+	
+	}
+	public ArrayList<Serviser> sviNeobrisaniServiseri() {
+		ArrayList<Serviser> neobrisani = new ArrayList<Serviser>();
+		for (Serviser serviser : serviseri) {
+			if(!serviser.isObrisan()) {
+				neobrisani.add(serviser);
+			}
+		}
+		return neobrisani;
+
+	
+	}
+	public ArrayList<Automobil> sviNeobrisaniAutomobili() {
+		ArrayList<Automobil> neobrisani = new ArrayList<Automobil>();
+		for (Automobil auto : automobili) {
+			if(!auto.isObrisan()) {
+				neobrisani.add(auto);
+			}
+		}
+		return neobrisani;
+
+	
+	}
+	public ArrayList<Deo> sviNeobrisaniDelovi() {
+		ArrayList<Deo> neobrisani = new ArrayList<Deo>();
+		for (Deo deo : delovi) {
+			if(!deo.isObrisan()) {
+				neobrisani.add(deo);
+			}
+		}
+		return neobrisani;
+	}
+	public ArrayList<Servis> sviNeobrisaniServisi() {
+		ArrayList<Servis> neobrisani = new ArrayList<Servis>();
+		for (Servis servis : servisi) {
+			if(!servis.isObrisan()) {
+				neobrisani.add(servis);
+			}
+		}
+		return neobrisani;
+	}
+	public ArrayList<ServisnaKnjizica> sviNeobrisaneSKnjizice() {
+		ArrayList<ServisnaKnjizica> neobrisani = new ArrayList<ServisnaKnjizica>();
+		for (ServisnaKnjizica knjizica : sKnjizice) {
+			if(!knjizica.isObrisan()) {
+				neobrisani.add(knjizica);
+			}
+		}
+		return neobrisani;
+	}
+
+	public Musterija pronadjiVlasnika(Automobil a) {
+		for (Musterija musterija : musterije) {
+			if (a.getVlasnik().equals(musterija)) {
+				return musterija;
+			}
+		}
+		return null;
+	}
+	public Musterija pronadjiMusterijuIme(String ime) {
+		for (Musterija musterija : musterije) {
+			if (musterija.getIme().equals(ime) ) {
+				return musterija;
+			}
+		}
+		return null;
+	}
+	public Automobil pronadjiAuto(Automobil auto) {
+		for (Automobil automobil : this.sviNeobrisaniAutomobili()) {
+			if (automobil.equals(auto)) {
+				return automobil;
+			}
+		}
+		return null;
+	}
 	
 }
 

@@ -6,15 +6,23 @@ public class ServisnaKnjizica {
 	
 	private int id;
 	private Automobil automobil;
+	private boolean obrisan;
 	ArrayList<Servis>listaServisa;
 	
-	public ServisnaKnjizica(int id,Automobil automobil, ArrayList<Servis> listaServisa) {
+	public ServisnaKnjizica(int id,Automobil automobil, ArrayList<Servis> listaServisa,boolean obrisan) {
 		super();
 		this.id = id;
 		this.automobil = automobil;
 		this.listaServisa = listaServisa;
+		this.obrisan = obrisan;
 	}
-	
+	public boolean isObrisan() {
+		return obrisan;
+	}
+
+	public void setObrisan(boolean obrisan) {
+		this.obrisan = obrisan;
+	}
 
 	public int getId() {
 		return id;

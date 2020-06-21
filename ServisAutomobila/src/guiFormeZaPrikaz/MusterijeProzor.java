@@ -55,11 +55,11 @@ public class MusterijeProzor extends JFrame {
 		add(mainToolBar, BorderLayout.NORTH);
 		
 		String[] zaglavlja = new String[]{"Id","Ime","Prezime","Korisnicko ime","Lozinka","Pol","JMBG","Adresa","Telefon","Bodovi","Obrisan"};
-		ArrayList<Musterija>musterije = CitanjeFajlova.ucitajMusterije();
-		Object[][] sadrzaj = new Object[musterije.size()][zaglavlja.length];
 		
-		for(int i=0; i<musterije.size();i++) {
-			Musterija musterija = musterije.get(i);
+		Object[][] sadrzaj = new Object[citanje.sviNeobrisaneMusterije().size()][zaglavlja.length];
+		
+		for(int i=0; i<citanje.sviNeobrisaneMusterije().size();i++) {
+			Musterija musterija = citanje.sviNeobrisaneMusterije().get(i);
 			sadrzaj[i][0] = musterija.getId();
 			sadrzaj[i][1] = musterija.getIme();
 			sadrzaj[i][2] = musterija.getPrezime();

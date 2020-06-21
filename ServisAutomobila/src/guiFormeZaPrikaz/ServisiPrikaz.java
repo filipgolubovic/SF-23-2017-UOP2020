@@ -1,18 +1,24 @@
 package guiFormeZaPrikaz;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
+import guiFromeZaDodavanjeiIzmene.AutomobilForma;
+import guiFromeZaDodavanjeiIzmene.ServisForma;
 import korisnici.Musterija;
+import servis.Automobil;
 import servis.Servis;
 import util.CitanjeFajlova;
 import slike.*;
@@ -51,19 +57,20 @@ public class ServisiPrikaz extends JFrame {
 		mainToolBar.add(btnDelete);
 		add(mainToolBar, BorderLayout.NORTH);
 		
-		String[] zaglavlja = new String[]{"Id","Marka","Model","Serviser","Datum","Opis","Delovi"};
-		ArrayList<Servis>servisi = CitanjeFajlova.ucitajServise();
-		Object[][] sadrzaj = new Object[servisi.size()][zaglavlja.length];
+		String[] zaglavlja = new String[]{"Id","Auto","Serviser","Datum","Opis","Delovi"};
 		
-		for(int i=0; i<servisi.size();i++) {
-			Servis servis = servisi.get(i);
+		Object[][] sadrzaj = new Object[citanje.sviNeobrisaniServisi().size()][zaglavlja.length];
+		
+		for(int i=0; i<citanje.sviNeobrisaniServisi().size();i++) {
+			Servis servis = citanje.sviNeobrisaniServisi().get(i);
+			
+			Automobil auto = citanje.pronadjiAuto(servis.getAuto());
 			sadrzaj[i][0] = servis.getId();
-			sadrzaj[i][1] = servis.getAuto().getMarka();
-			sadrzaj[i][2] = servis.getAuto().getModel();
-			sadrzaj[i][3] = servis.getServiser().getIme()+" "+servis.getServiser().getPrezime();
-			sadrzaj[i][4] = servis.getDatum();
-			sadrzaj[i][5] = servis.getOpis();
-			sadrzaj[i][6] = servis.getListaDelova();
+			sadrzaj[i][1] = auto == null ? "--" :servis.getAuto().getId();
+			sadrzaj[i][2] = servis.getServiser().getIme()+" "+servis.getServiser().getPrezime();
+			sadrzaj[i][3] = servis.getDatum();
+			sadrzaj[i][4] = servis.getOpis();
+			sadrzaj[i][5] = servis.getListaDelova();
 	
 		}
 		tableModel = new DefaultTableModel(sadrzaj,zaglavlja);
@@ -79,6 +86,57 @@ public class ServisiPrikaz extends JFrame {
 		add(scrollPane,BorderLayout.CENTER);
 	}
 	private void initActions() {
-		
+		btnDelete.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int red = servisiTabela.getSelectedRow();
+				if(red == -1) {
+					JOptionPane.showMessageDialog(null, "Morate odabrati red u tabeli.", "Greska", JOptionPane.WARNING_MESSAGE);
+				}else {
+					String opis  = tableModel.getValueAt(red, 4).toString();
+					Servis servis = citanje.nadjiServis(opis);
+				
+					
+					int izbor = JOptionPane.showConfirmDialog(null, "Da li ste sigurni da zelite da obrisete servis?", servis.getOpis() + " - Potvrda brisanja", JOptionPane.YES_NO_OPTION);
+					if(izbor == JOptionPane.YES_OPTION) {
+						servis.setObrisan(true);
+						tableModel.removeRow(red);
+						citanje.snimiServise();
+					}
+				}
+				
+			}
+		});
+		btnAdd.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				ServisForma sf = new ServisForma(citanje, null);
+				sf.setVisible(true);
+				
+			}
+		});
+		btnEdit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int red = servisiTabela.getSelectedRow();
+				if(red == -1) {
+					JOptionPane.showMessageDialog(null, "Morate odabrati red u tabeli.", "Greska", JOptionPane.WARNING_MESSAGE);
+				}else {
+					String opis  = tableModel.getValueAt(red, 4).toString();
+					Servis servis = citanje.nadjiServis(opis);
+				
+				
+					if(servis == null) {
+						JOptionPane.showMessageDialog(null, "Greska prilikom pronalazenje servisa sa tim opisom", "Greska", JOptionPane.WARNING_MESSAGE);
+					}else {
+						ServisForma sf = new ServisForma(citanje, servis);
+						sf.setVisible(true);
+					}
+				}
+			}
+		});
 	}
 }
