@@ -10,7 +10,7 @@ public class Musterija extends Korisnik {
 		this.brojBodova = 0;
 	}
 
-	public Musterija(int id,String ime, String prezime, String jmbg, Pol pol, String adresa, String brojTelefona,
+	public Musterija(String id,String ime, String prezime, String jmbg, Pol pol, String adresa, String brojTelefona,
 			String korisnickoIme, String lozinka, int brojBodova,boolean obrisan) {
 		super(id, ime, prezime, jmbg, pol, adresa, brojTelefona, korisnickoIme, lozinka, obrisan);
 		this.brojBodova = brojBodova;

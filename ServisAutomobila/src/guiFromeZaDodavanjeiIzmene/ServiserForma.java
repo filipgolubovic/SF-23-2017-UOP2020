@@ -19,7 +19,8 @@ import uloge.SpecijalizacijaServisera;
 import util.CitanjeFajlova;
 
 public class ServiserForma extends JFrame {
-	
+	private JLabel lblId = new JLabel("Id");
+	private JTextField txtId = new JTextField(20);
 	private JLabel lblIme = new JLabel("Ime");
 	private JTextField txtIme = new JTextField(20);
 	private JLabel lblPrezime = new JLabel("Prezime");
@@ -64,13 +65,14 @@ public class ServiserForma extends JFrame {
 		pack();
 	}
 	private void initGUI() {
-		MigLayout layout = new MigLayout("wrap 2","[][]","[][][][][][][][]20[]");
+		MigLayout layout = new MigLayout("wrap 2","[][]","[][][][][][][][][]20[]");
 		setLayout(layout);
 		
 		if(serviser != null) {
 			popuniPolja();
 		}
-		
+		add(lblId);
+		add(txtId);
 		add(lblIme);
 		add(txtIme);
 		add(lblPrezime);
@@ -102,7 +104,7 @@ public class ServiserForma extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(validacija()) {
-					int id = 0;
+					String id = txtId.getText().trim(); 
 					String ime = txtIme.getText().trim();
 					String prezime = txtPrezime.getText().trim();
 					String korisnickoIme = txtKorIme.getText().trim();
@@ -110,7 +112,7 @@ public class ServiserForma extends JFrame {
 					String jmbg = txtJmbg.getText().trim();
 					String adresa = txtAdresa.getText().trim();
 					String telefon = txtTelefon.getText().trim();
-					Double plata =  20000.0;
+					Double plata = Double.parseDouble(txtPlata.getText().trim());
 					SpecijalizacijaServisera spec = (SpecijalizacijaServisera)cbSpec.getSelectedItem();
 					Pol pol = (Pol)cbPol.getSelectedItem();
 					
@@ -118,6 +120,7 @@ public class ServiserForma extends JFrame {
 						Serviser novi = new Serviser(id, ime, prezime, jmbg, pol, adresa, telefon, korisnickoIme, lozinka, plata, spec, false);
 						citanje.dodajServisera(novi);
 					}else {
+						serviser.setId(id);
 						serviser.setIme(ime);
 						serviser.setPrezime(prezime);
 						serviser.setKorisnickoIme(korisnickoIme);
@@ -137,6 +140,7 @@ public class ServiserForma extends JFrame {
 		});
 	}
 	private void popuniPolja() {
+		txtId.setText(serviser.getId());
 		txtIme.setText(serviser.getIme());
 		txtPrezime.setText(serviser.getPrezime());
 		txtKorIme.setText(serviser.getKorisnickoIme());
@@ -151,7 +155,18 @@ public class ServiserForma extends JFrame {
 	public boolean validacija() {
 		boolean ok = true;
 		String poruka = "Molimo popravite greske u unosu:\n";
-		
+		if(txtId.getText().trim().equals("")) {
+			poruka += "- Unesite id\n";
+			ok = false;
+		}else if (serviser == null) {
+			String id = txtId.getText().trim();
+			Serviser pronadjen = citanje.pronadjiServisera(id);
+			if(pronadjen != null) {
+				poruka += "- Serviser sa tim id-om vec postoji!\n";
+				ok = false;
+			}		
+		}
+
 		if(txtIme.getText().trim().equals("")) {
 			poruka += "- Unesite ime\n";
 			ok = false;
@@ -163,7 +178,7 @@ public class ServiserForma extends JFrame {
 		if(txtKorIme.getText().trim().equals("")) {
 			poruka += "- Unesite korisnicko ime\n";
 			ok = false;
-		}else if(serviser != null){
+		}else if(serviser == null){
 			String korIme = txtKorIme.getText().trim();
 			Serviser pronadjeni = citanje.nadjiServisera(korIme);
 			if(pronadjeni != null) {

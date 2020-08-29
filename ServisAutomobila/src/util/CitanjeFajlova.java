@@ -52,7 +52,7 @@ public class CitanjeFajlova {
 			while((line = reader.readLine()) !=null) {
 				String[]lineSplit = line.split("\\|");
 				
-				int id = Integer.parseInt(lineSplit[0]);
+				String id = lineSplit[0];
 				String ime = lineSplit[1];
 				String prezime = lineSplit[2];
 				String korIme = lineSplit[3];
@@ -88,10 +88,10 @@ public class CitanjeFajlova {
 			while((line = reader.readLine()) !=null) {
 				String[]lineSplit = line.split("\\|");
 				
-				int id = Integer.parseInt(lineSplit[0]);
-				int idVlasnika = Integer.parseInt(lineSplit[1]);
-				Musterija vlasnik = pronadjiMusteriju(idVlasnika);
-				
+				String id = lineSplit[0];
+				String idVlasnika = lineSplit[1];
+				Musterija vlasnik =(Musterija) pronadjiMusteriju(idVlasnika);
+
 				int indexModela = Integer.parseInt(lineSplit[2]);
 				Model model = Model.values()[indexModela];
 				int indexMarke = Integer.parseInt(lineSplit[3]);
@@ -129,7 +129,7 @@ public class CitanjeFajlova {
 			while((line = reader.readLine()) !=null) {
 				String[]lineSplit = line.split("\\|");
 				
-				int id = Integer.parseInt(lineSplit[0]);
+				String id = lineSplit[0];
 				String ime = lineSplit[1];
 				String prezime = lineSplit[2];
 				String korIme = lineSplit[3];
@@ -165,7 +165,7 @@ public class CitanjeFajlova {
 			while((line = reader.readLine()) !=null) {
 				String[]lineSplit = line.split("\\|");
 				
-				int id = Integer.parseInt(lineSplit[0]);
+				String id = lineSplit[0];
 				String ime = lineSplit[1];
 				String prezime = lineSplit[2];
 				String korIme = lineSplit[3];
@@ -202,7 +202,7 @@ public class CitanjeFajlova {
 			while((line = reader.readLine()) !=null) {
 				String[]lineSplit = line.split("\\|");
 				
-				int id = Integer.parseInt(lineSplit[0]);
+				String id = lineSplit[0];
 				int indexModela = Integer.parseInt(lineSplit[1]);
 				Model model = Model.values()[indexModela];
 				int indexMarke = Integer.parseInt(lineSplit[2]);
@@ -233,9 +233,9 @@ public class CitanjeFajlova {
 			while((line = reader.readLine()) !=null) {
 				String[]lineSplit = line.split("\\|");
 				
-				int id = Integer.parseInt(lineSplit[0]);
-				int indexAuta = Integer.parseInt(lineSplit[1]);
-				Automobil auto = pronadjiAutomobil(indexAuta);
+				String id = lineSplit[0];
+				String indexAuta = lineSplit[1];
+				Automobil auto = (Automobil)pronadjiAutomobil(indexAuta);
 				ArrayList<Servis>servisi = new ArrayList<Servis>();
 				boolean obrisan = Boolean.parseBoolean(lineSplit[2]);
 				ServisnaKnjizica knjizica = new ServisnaKnjizica(id, auto, servisi,obrisan);
@@ -264,17 +264,17 @@ public class CitanjeFajlova {
 			while((line = reader.readLine()) !=null) {
 				String[]lineSplit = line.split("\\|");
 				
-				int id = Integer.parseInt(lineSplit[0]);
-				int indexAuta = Integer.parseInt(lineSplit[1]);
-				Automobil auto = pronadjiAutomobil(indexAuta);
-				int indexServisera = Integer.parseInt(lineSplit[2]);
-				Serviser serviser = pronadjiServisera(indexServisera);
+				String id = lineSplit[0];
+				String indexAuta = lineSplit[1];
+				Automobil auto =(Automobil) pronadjiAutomobil(indexAuta);
+				String indexServisera = lineSplit[2];
+				Serviser serviser = (Serviser)pronadjiServisera(indexServisera);
 				String opis = lineSplit[4];
 				Date datum = new Date(2020, 11, 12);
 				ArrayList<Deo>delovi = new ArrayList<Deo>();
 				boolean obrisan = Boolean.parseBoolean(lineSplit[5]);
 				Servis servis = new Servis(id, auto, serviser, datum, opis, delovi,obrisan);
-				if(auto!=null) {
+				if(auto==null) {
 					servis.setAuto(auto);
 				}
 				if(serviser!=null) {
@@ -291,35 +291,55 @@ public class CitanjeFajlova {
 		}
 		return servisi;
 	}
+	public Administrator pronadjiAdmina(String id) {	
+		for (Administrator admin : this.sviNeobrisaniAdmini()) {
+			if(admin.getId().equals(id)) {
+				return admin;
+			}
+		}return null;
+	}
 
 
 	
-	public Musterija pronadjiMusteriju(int id) {
-		
-		for (Musterija musterija : musterije) {
-			if(musterija.getId() == id) {
+	public Musterija pronadjiMusteriju(String id) {
+		for (Musterija musterija : this.sviNeobrisaneMusterije()) {
+			if(musterija.getId().equals(id)) {
 				return musterija;
 			}
 		}return null;
 	}
-	public Automobil pronadjiAutomobil(int id) {
-		
-		for (Automobil automobil : automobili) {
-			if(automobil.getId() == id) {
+	public Automobil pronadjiAutomobil(String id) {
+		for (Automobil automobil : this.sviNeobrisaniAutomobili()) {
+			if(automobil.getId().equals(id)) {
 				return automobil;
 			}
-		}return null;
+		}
+		return null;
 	
 	}
 	
-	public Serviser pronadjiServisera(int id) {
-		
+	public Serviser pronadjiServisera(String id) {	
 		for (Serviser servis : serviseri) {
-			if(servis.getId() == id) {
+			if(servis.getId().equals(id)) {
 				return servis;
 			}
 		}return null;
 	}
+	public Deo pronadjiDeo(String id) {
+		for (Deo deo : delovi) {
+			if(deo.getId().equals(id)) {
+				return deo;
+			}
+		}return null;
+	}
+	public Servis pronadjiServis(String id) {
+		for (Servis servis : servisi) {
+			if(servis.getId().equals(id)) {
+				return servis;
+			}
+		}return null;
+	}
+	
 	
 	public Musterija loginM(String korIme, String lozinka) {
 		
@@ -403,14 +423,10 @@ public class CitanjeFajlova {
 			File file = new File("src/fajlovi/automobili.txt");
 			String content = "";
 			for (Automobil auto : automobili) {
-				for (Musterija musterija : musterije) {
-					if (auto.getVlasnik() == pronadjiMusteriju(musterija.getId())) {
 						content += auto.getId() + "|" + auto.getVlasnik().getId() + "|" + auto.getMarka().ordinal()
 								+ "|" + auto.getModel().ordinal() + "|" + auto.getGodiste() + "|"
 								+ auto.getSnagaMotora() + "|" + auto.getZapreminaMotora() + "|"
 								+ auto.getVrstaGoriva().ordinal() + "|" + auto.isObrisan() + "\n";
-					}
-				} 
 			}
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 			writer.write(content);
@@ -452,7 +468,7 @@ public class CitanjeFajlova {
 			for (Administrator admin : administratori) {
 				content += admin.getId() + "|" + admin.getIme() + "|"
 						+ admin.getPrezime() + "|" + admin.getKorisnickoIme()+ "|"
-						+ admin.getLozinka() + "|" + admin.getPol().ordinal() + "|" + admin.getJmbg() + "|" + admin.getAdresa() + "|" + admin.getBrojTelefona()+ "|" + admin.getPlata()+admin.isObrisan()+ "\n";
+						+ admin.getLozinka() + "|" + admin.getPol().ordinal() + "|" + admin.getJmbg() + "|" + admin.getAdresa() + "|" + admin.getBrojTelefona()+ "|" + admin.getPlata()+"|"+admin.isObrisan()+ "\n";
 			}
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 			writer.write(content);
@@ -470,7 +486,7 @@ public class CitanjeFajlova {
 			for (Serviser serviser : serviseri) {
 				content += serviser.getId() + "|" + serviser.getIme() + "|"
 						+ serviser.getPrezime() + "|" + serviser.getKorisnickoIme()+ "|"
-						+ serviser.getLozinka() + "|" + serviser.getPol().ordinal() + "|" + serviser.getJmbg() + "|" + serviser.getAdresa() + "|" + serviser.getBrojTelefona()+ "|" + serviser.getPlata()+"|" + serviser.getSpecijalizacija().ordinal()+ serviser.isObrisan()+"\n";
+						+ serviser.getLozinka() + "|" + serviser.getPol().ordinal() + "|" + serviser.getJmbg() + "|" + serviser.getAdresa() + "|" + serviser.getBrojTelefona()+ "|" + serviser.getPlata()+"|" + serviser.getSpecijalizacija().ordinal()+"|"+ serviser.isObrisan()+"\n";
 			}
 			
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
@@ -629,7 +645,7 @@ public class CitanjeFajlova {
 
 	public Musterija pronadjiVlasnika(Automobil a) {
 		for (Musterija musterija : musterije) {
-			if (a.getVlasnik().equals(musterija)) {
+			if (a.getVlasnik().getId().equals(musterija.getId())) {
 				return musterija;
 			}
 		}
@@ -643,14 +659,33 @@ public class CitanjeFajlova {
 		}
 		return null;
 	}
-	public Automobil pronadjiAuto(Automobil auto) {
+	public Automobil pronadjiAuto(Servis s) {
 		for (Automobil automobil : this.sviNeobrisaniAutomobili()) {
-			if (automobil.equals(auto)) {
+			if (s.getAuto().getId().contains(automobil.getId())) {
 				return automobil;
 			}
 		}
 		return null;
 	}
+	public String pronadjiIdPoImenuiP(String imeIPrezime) {
+		for(Musterija musterija : sviNeobrisaneMusterije()) {
+			String postojeceImeIprezime = musterija.getIme().concat(musterija.getPrezime()).toLowerCase();
+			if(imeIPrezime.toLowerCase().equals(postojeceImeIprezime)) {
+				return musterija.getId();
+			}
+			
+		}return null;
+	}
+	public String pronadjiIdPoImenuiPServiser(String imeIPrezime) {
+		for(Serviser serviser : sviNeobrisaniServiseri()) {
+			String postojeceImeIprezime = serviser.getIme().concat(serviser.getPrezime()).toLowerCase();
+			if(imeIPrezime.toLowerCase().equals(postojeceImeIprezime)) {
+				return serviser.getId();
+			}
+			
+		}return null;
+	}
+	
 	
 }
 

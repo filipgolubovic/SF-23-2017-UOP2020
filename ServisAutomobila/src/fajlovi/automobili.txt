@@ -1,4 +1,7 @@
-1|11|0|0|2015|300ks|3000ccm|0|false
-2|12|1|1|2008|100ks|2000ccm|1|false
-3|12|2|2|2015|200ks|1000ccm|0|false
-13|13|0|0|2018|600ks|3000ccm|0|true
+1|11|0|1|99|dsad|dasd|0|false
+2|11|0|0|88|ddsa|dsad|0|false
+3|12|0|0|23|dsad|3dw|0|false
+4|12|0|0|33|sdad|dasd|1|false
+6|11|0|0|4|re|fds|0|false
+44|12|1|1|44|bcvgdf|sdf|2|true
+444ee|12|0|0|34324|fdseqw|asderw|1|true

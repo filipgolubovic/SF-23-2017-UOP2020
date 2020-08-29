@@ -99,7 +99,7 @@ public class AdminPikaz extends JFrame {
 					if(izbor == JOptionPane.YES_OPTION) {
 						admin.setObrisan(true);
 						tableModel.removeRow(red);
-						citanje.snimiMusterije();
+						citanje.snimiAdmine();
 					}
 				}
 				

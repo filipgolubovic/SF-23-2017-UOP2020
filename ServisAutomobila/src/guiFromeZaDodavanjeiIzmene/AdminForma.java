@@ -18,6 +18,8 @@ import uloge.Pol;
 import util.CitanjeFajlova;
 
 public class AdminForma extends JFrame {
+	private JLabel lblId = new JLabel("Id");
+	private JTextField txtId = new JTextField(20);
 	private JLabel lblIme = new JLabel("Ime");
 	private JTextField txtIme = new JTextField(20);
 	private JLabel lblPrezime = new JLabel("Prezime");
@@ -58,13 +60,15 @@ public class AdminForma extends JFrame {
 		pack();
 	}
 	private void initGUI() {
-		MigLayout layout = new MigLayout("wrap 2","[][]","[][][][][][][][]20[]");
+		MigLayout layout = new MigLayout("wrap 2","[][]","[][][][][][][][][]20[]");
 		setLayout(layout);
 		
 		if(admin != null) {
 			popuniPolja();
 		}
 		
+		add(lblId);
+		add(txtId);
 		add(lblIme);
 		add(txtIme);
 		add(lblPrezime);
@@ -94,7 +98,7 @@ public class AdminForma extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(validacija()) {
-					int id = 0;
+					String id = txtId.getText().trim();
 					String ime = txtIme.getText().trim();
 					String prezime = txtPrezime.getText().trim();
 					String korisnickoIme = txtKorIme.getText().trim();
@@ -102,13 +106,14 @@ public class AdminForma extends JFrame {
 					String jmbg = txtJmbg.getText().trim();
 					String adresa = txtAdresa.getText().trim();
 					String telefon = txtTelefon.getText().trim();
-					Double plata = 20000.0;
+					Double plata = Double.parseDouble(txtPlata.getText().trim());
 					Pol pol = (Pol)cbPol.getSelectedItem();
 					
 					if(admin == null) {
 						Administrator novi = new Administrator(id, ime, prezime, jmbg, pol, adresa, telefon, korisnickoIme, lozinka, plata, false);
 						citanje.dodajAdmina(novi);
 					}else {
+						admin.setId(id);
 						admin.setIme(ime);
 						admin.setPrezime(prezime);
 						admin.setKorisnickoIme(korisnickoIme);
@@ -128,6 +133,7 @@ public class AdminForma extends JFrame {
 		});
 	}
 	private void popuniPolja() {
+		txtId.setText(admin.getId());
 		txtIme.setText(admin.getIme());
 		txtPrezime.setText(admin.getPrezime());
 		txtKorIme.setText(admin.getKorisnickoIme());
@@ -141,7 +147,18 @@ public class AdminForma extends JFrame {
 	public boolean validacija() {
 		boolean ok = true;
 		String poruka = "Molimo popravite greske u unosu:\n";
-		
+		if(txtId.getText().trim().equals("")) {
+			poruka += "- Unesite id\n";
+			ok = false;
+		}else if (admin == null) {
+			String id = txtId.getText().trim();
+			Administrator pronadjen = citanje.pronadjiAdmina(id);
+			if(pronadjen != null) {
+				poruka += "- Admin sa tim id-om vec postoji!\n";
+				ok = false;
+			}
+			
+		}
 		if(txtIme.getText().trim().equals("")) {
 			poruka += "- Unesite ime\n";
 			ok = false;
@@ -153,11 +170,11 @@ public class AdminForma extends JFrame {
 		if(txtKorIme.getText().trim().equals("")) {
 			poruka += "- Unesite korisnicko ime\n";
 			ok = false;
-		}else if(admin != null){
+		}else if(admin == null){
 			String korIme = txtKorIme.getText().trim();
 			Administrator pronadjeni = citanje.nadjiAdmina(korIme);
 			if(pronadjeni != null) {
-				poruka += "- Musterija sa tim korisnickim imenom vec postoji!\n";
+				poruka += "- Admin sa tim korisnickim imenom vec postoji!\n";
 				ok = false;
 			}
 		}
@@ -185,7 +202,9 @@ public class AdminForma extends JFrame {
 		if(ok == false) {
 			JOptionPane.showMessageDialog(null, poruka, "Neispravni podaci", JOptionPane.WARNING_MESSAGE);
 		}
+	
 		return ok;
+		
 		
 		
 	}

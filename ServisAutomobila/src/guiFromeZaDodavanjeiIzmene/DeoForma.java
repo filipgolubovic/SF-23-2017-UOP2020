@@ -20,6 +20,8 @@ import uloge.VrstaGoriva;
 import util.CitanjeFajlova;
 
 public class DeoForma extends JFrame {
+	private JLabel lblId = new JLabel("Id");
+	private JTextField txtId = new JTextField(20);
 	private JLabel lblNaziv = new JLabel("Naziv");
 	private JTextField txtNaziv = new JTextField(20);
 	private JLabel lblMarka = new JLabel("Marka");
@@ -53,7 +55,7 @@ public class DeoForma extends JFrame {
 		pack();
 	}
 	private void initGUI() {
-		MigLayout layout = new MigLayout("wrap 2","[][]","[][][]20[]");
+		MigLayout layout = new MigLayout("wrap 2","[][]","[][][][]20[]");
 		setLayout(layout);
 		
 		
@@ -63,6 +65,8 @@ public class DeoForma extends JFrame {
 			popuniPolja();
 		}
 		
+		add(lblId);
+		add(txtId);
 		add(lblNaziv);
 		add(txtNaziv);
 		
@@ -86,7 +90,7 @@ public class DeoForma extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					if(validacija()) {
-						int id = 0;
+						String id = txtId.getText().trim();
 						String naziv = txtNaziv.getText().trim();
 						Marka marka = (Marka)cbMarka.getSelectedItem();
 						Model model = (Model)cbModel.getSelectedItem();
@@ -96,6 +100,7 @@ public class DeoForma extends JFrame {
 							Deo novi = new Deo(id, marka, model, naziv, cena, false);
 							citanje.dodajDeo(novi);
 						}else {
+							deo.setId(id);
 							deo.setNaziv(naziv);
 							deo.setMarka(marka);
 							deo.setModel(model);
@@ -114,7 +119,7 @@ public class DeoForma extends JFrame {
 		});
 	}
 	private void popuniPolja() {
-			
+		txtId.setText(deo.getId());	
 		txtNaziv.setText(deo.getNaziv());
 		cbMarka.setSelectedItem(deo.getMarka());
 		cbModel.setSelectedItem(deo.getModel());
@@ -124,7 +129,17 @@ public class DeoForma extends JFrame {
 		boolean ok = true;
 		String poruka = "Molimo popravite greske u unosu:\n";
 		
-	
+		if(txtId.getText().trim().equals("")) {
+			poruka += "- Unesite id\n";
+			ok = false;
+		}else if (deo != null) {
+			String id = txtId.getText().trim();
+			Deo pronadjen = citanje.pronadjiDeo(id);
+			if(pronadjen != null) {
+				poruka += "- Deo sa tim id-om vec postoji!\n";
+				ok = false;
+			}		
+		}
 		if(txtCena.getText().trim().equals("")) {
 			poruka += "- Unesite cenu\n";
 			ok = false;

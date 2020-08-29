@@ -62,18 +62,18 @@ public class AutomobilPrikaz extends JFrame {
 		Object[][] sadrzaj = new Object[citanje.sviNeobrisaniAutomobili().size()][zaglavlja.length];
 		
 		for(int i=0; i<citanje.sviNeobrisaniAutomobili().size();i++) {
-			for (Musterija musterija : citanje.sviNeobrisaneMusterije()) {
+			
 				Automobil auto = citanje.sviNeobrisaniAutomobili().get(i);
-				Musterija vlasnik = citanje.pronadjiVlasnika(auto);
+				
 				sadrzaj[i][0] = auto.getId();
-				sadrzaj[i][1] = vlasnik.getId();
+				sadrzaj[i][1] = auto.getVlasnik().getIme()+ " "+ auto.getVlasnik().getPrezime();
 				sadrzaj[i][2] = auto.getMarka();
 				sadrzaj[i][3] = auto.getModel();
 				sadrzaj[i][4] = auto.getGodiste();
 				sadrzaj[i][5] = auto.getSnagaMotora();
 				sadrzaj[i][6] = auto.getZapreminaMotora();
 				sadrzaj[i][7] = auto.getVrstaGoriva();
-			}
+			
 			//disk == null ? "--" : disk.getNaziv();
 		}
 		tableModel = new DefaultTableModel(sadrzaj,zaglavlja);

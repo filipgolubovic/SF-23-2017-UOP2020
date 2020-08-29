@@ -13,11 +13,13 @@ import javax.swing.JTextField;
 
 import korisnici.Musterija;
 import net.miginfocom.swing.MigLayout;
+import servis.Deo;
 import uloge.Pol;
 import util.CitanjeFajlova;
 
 public class MusterijaForma extends JFrame {
-	
+	private JLabel lblId = new JLabel("Id");
+	private JTextField txtId = new JTextField(20);
 	private JLabel lblIme = new JLabel("Ime");
 	private JTextField txtIme = new JTextField(20);
 	private JLabel lblPrezime = new JLabel("Prezime");
@@ -64,7 +66,8 @@ public class MusterijaForma extends JFrame {
 		if(musterija != null) {
 			popuniPolja();
 		}
-		
+		add(lblId);
+		add(txtId);
 		add(lblIme);
 		add(txtIme);
 		add(lblPrezime);
@@ -94,7 +97,7 @@ public class MusterijaForma extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(validacija()) {
-					int id = 0;
+					String id = txtId.getText().trim();
 					String ime = txtIme.getText().trim();
 					String prezime = txtPrezime.getText().trim();
 					String korisnickoIme = txtKorIme.getText().trim();
@@ -102,13 +105,14 @@ public class MusterijaForma extends JFrame {
 					String jmbg = txtJmbg.getText().trim();
 					String adresa = txtAdresa.getText().trim();
 					String telefon = txtTelefon.getText().trim();
-					int bodovi = 88;
+					int bodovi = Integer.parseInt(txtBodovi.getText());
 					Pol pol = (Pol)cbPol.getSelectedItem();
 					
 					if(musterija == null) {
 						Musterija novi = new Musterija(id, ime, prezime, jmbg, pol, adresa, telefon, korisnickoIme, lozinka, bodovi, false);
 						citanje.dodajMusteriju(novi);
 					}else {
+						musterija.setId(id);
 						musterija.setIme(ime);
 						musterija.setPrezime(prezime);
 						musterija.setKorisnickoIme(korisnickoIme);
@@ -128,6 +132,7 @@ public class MusterijaForma extends JFrame {
 		});
 	}
 	private void popuniPolja() {
+		txtId.setText(musterija.getId());
 		txtIme.setText(musterija.getIme());
 		txtPrezime.setText(musterija.getPrezime());
 		txtKorIme.setText(musterija.getKorisnickoIme());
@@ -140,8 +145,19 @@ public class MusterijaForma extends JFrame {
 	}
 	public boolean validacija() {
 		boolean ok = true;
-		String poruka = "Molimo popravite greske u unosu:\n";
 		
+		String poruka = "Molimo popravite greske u unosu:\n";
+		if(txtId.getText().trim().equals("")) {
+			poruka += "- Unesite id\n";
+			ok = false;
+		}else if (musterija == null) {
+			String id = txtId.getText().trim();
+			Musterija pronadjen = citanje.pronadjiMusteriju(id);
+			if(pronadjen != null) {
+				poruka += "- Musterija sa tim id-om vec postoji!\n";
+				ok = false;
+			}		
+		}
 		if(txtIme.getText().trim().equals("")) {
 			poruka += "- Unesite ime\n";
 			ok = false;
@@ -153,7 +169,7 @@ public class MusterijaForma extends JFrame {
 		if(txtKorIme.getText().trim().equals("")) {
 			poruka += "- Unesite korisnicko ime\n";
 			ok = false;
-		}else if(musterija != null){
+		}else if(musterija == null){
 			String korIme = txtKorIme.getText().trim();
 			Musterija pronadjeni = citanje.nadjiMusteriju(korIme);
 			if(pronadjeni != null) {

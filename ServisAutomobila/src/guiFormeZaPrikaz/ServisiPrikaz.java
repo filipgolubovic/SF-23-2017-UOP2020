@@ -57,22 +57,24 @@ public class ServisiPrikaz extends JFrame {
 		mainToolBar.add(btnDelete);
 		add(mainToolBar, BorderLayout.NORTH);
 		
-		String[] zaglavlja = new String[]{"Id","Auto","Serviser","Datum","Opis","Delovi"};
+		String[] zaglavlja = new String[]{"Id","Auto","Serviser","Datum","Opis","Delovi","Obrisan"};
 		
 		Object[][] sadrzaj = new Object[citanje.sviNeobrisaniServisi().size()][zaglavlja.length];
 		
 		for(int i=0; i<citanje.sviNeobrisaniServisi().size();i++) {
-			Servis servis = citanje.sviNeobrisaniServisi().get(i);
 			
-			Automobil auto = citanje.pronadjiAuto(servis.getAuto());
+			Servis servis = citanje.sviNeobrisaniServisi().get(i);
+
+			
 			sadrzaj[i][0] = servis.getId();
-			sadrzaj[i][1] = auto == null ? "--" :servis.getAuto().getId();
+			sadrzaj[i][1] = servis.getAuto().getModel()+" "+servis.getAuto().getMarka();
 			sadrzaj[i][2] = servis.getServiser().getIme()+" "+servis.getServiser().getPrezime();
 			sadrzaj[i][3] = servis.getDatum();
 			sadrzaj[i][4] = servis.getOpis();
 			sadrzaj[i][5] = servis.getListaDelova();
+			sadrzaj[i][6] = servis.isObrisan();
 	
-		}
+		
 		tableModel = new DefaultTableModel(sadrzaj,zaglavlja);
 		servisiTabela = new JTable(tableModel);
 		
@@ -84,6 +86,7 @@ public class ServisiPrikaz extends JFrame {
 		
 		JScrollPane scrollPane = new JScrollPane(servisiTabela);
 		add(scrollPane,BorderLayout.CENTER);
+		}
 	}
 	private void initActions() {
 		btnDelete.addActionListener(new ActionListener() {

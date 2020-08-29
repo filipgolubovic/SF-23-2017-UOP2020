@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import korisnici.Administrator;
 import korisnici.Musterija;
 import korisnici.Serviser;
 import net.miginfocom.swing.MigLayout;
@@ -22,8 +23,10 @@ import uloge.VrstaGoriva;
 import util.CitanjeFajlova;
 
 public class AutomobilForma extends JFrame {
-	private JLabel lblVlasnik = new JLabel("Vlasnik");
-	private JTextField txtVlasnik = new JTextField(20);
+	private JLabel lblId = new JLabel("Id");
+	private JTextField txtId = new JTextField(20);
+	private JLabel lblVlasnik= new JLabel("Vlasnik");
+	private JComboBox<String>cbVlasnik= new JComboBox<String>();
 	private JLabel lblMarka = new JLabel("Marka");
 	private JComboBox<Marka>cbMarka = new JComboBox<Marka>(Marka.values());
 	private JLabel lblModel = new JLabel("Model");
@@ -63,8 +66,11 @@ public class AutomobilForma extends JFrame {
 		pack();
 	}
 	private void initGUI() {
-		MigLayout layout = new MigLayout("wrap 2","[][]","[][][][][][]20[]");
+		MigLayout layout = new MigLayout("wrap 2","[][]","[][][][][][][]20[]");
 		setLayout(layout);
+		for (Musterija musterija : citanje.sviNeobrisaneMusterije()) {
+			cbVlasnik.addItem(String.valueOf(musterija.getIme().concat(musterija.getPrezime())));
+		}
 		
 		
 		
@@ -73,8 +79,10 @@ public class AutomobilForma extends JFrame {
 			popuniPolja();
 		}
 		
+		add(lblId);
+		add(txtId);
 		add(lblVlasnik);
-		add(txtVlasnik);
+		add(cbVlasnik);
 		
 		add(lblSnaga);
 		add(txtSnaga);
@@ -101,8 +109,10 @@ public class AutomobilForma extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					if(validacija()) {
-						int id = Integer.parseInt(txtVlasnik.getText().trim());
-						Musterija vlasnik = citanje.pronadjiMusteriju(id);
+						String id = txtId.getText().trim();
+						String idVlasnika = cbVlasnik.getSelectedItem().toString();
+						String idVlasnika2 = citanje.pronadjiIdPoImenuiP(idVlasnika);
+						Musterija vlasnik = citanje.pronadjiMusteriju(idVlasnika2);
 						Marka marka = (Marka)cbMarka.getSelectedItem();
 						Model model = (Model)cbModel.getSelectedItem();
 						VrstaGoriva gorivo = (VrstaGoriva)cbGorivo.getSelectedItem();
@@ -116,6 +126,7 @@ public class AutomobilForma extends JFrame {
 							Automobil novi = new Automobil(id, vlasnik, marka, model, godiste, snaga, zapremina, gorivo, false);
 							citanje.dodajAutomobil(novi);
 						}else {
+							auto.setId(id);
 							auto.setVlasnik(vlasnik);
 							auto.setMarka(marka);
 							auto.setModel(model);
@@ -123,6 +134,7 @@ public class AutomobilForma extends JFrame {
 							auto.setSnagaMotora(snaga);
 							auto.setZapreminaMotora(zapremina);
 							auto.setVrstaGoriva(gorivo);
+							
 							
 							
 						}
@@ -139,9 +151,10 @@ public class AutomobilForma extends JFrame {
 		});
 	}
 	private void popuniPolja() {
-	
+		
+		txtId.setText(auto.getId());
 		Musterija musterija = citanje.pronadjiVlasnika(auto);
-		txtVlasnik.setText(String.valueOf(musterija.getId()));
+		cbVlasnik.setSelectedItem(String.valueOf(musterija.getId()));
 		cbMarka.setSelectedItem(auto.getMarka());
 		cbModel.setSelectedItem(auto.getModel());
 		cbGorivo.setSelectedItem(auto.getVrstaGoriva());
@@ -152,7 +165,18 @@ public class AutomobilForma extends JFrame {
 	public boolean validacija() {
 		boolean ok = true;
 		String poruka = "Molimo popravite greske u unosu:\n";
-		
+		if(txtId.getText().trim().equals("")) {
+			poruka += "- Unesite id\n";
+			ok = false;
+		}else if (auto == null) {
+			String id = txtId.getText().trim();
+			Automobil pronadjen = citanje.pronadjiAutomobil(id);
+			if(pronadjen != null) {
+				poruka += "- Auto sa tim id-om vec postoji!\n";
+				ok = false;
+			}
+			
+		}
 	
 		if(txtGodiste.getText().trim().equals("")) {
 			poruka += "- Unesite godiste\n";

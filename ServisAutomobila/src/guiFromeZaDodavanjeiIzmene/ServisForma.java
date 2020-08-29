@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import korisnici.Musterija;
 import korisnici.Serviser;
 import net.miginfocom.swing.MigLayout;
 import servis.Automobil;
@@ -68,7 +69,7 @@ public class ServisForma extends JFrame {
 			cbAuto.addItem(String.valueOf(auto.getId()));
 		}
 		for (Serviser serviser : citanje.sviNeobrisaniServiseri()) {
-			cbServiser.addItem(String.valueOf(serviser.getKorisnickoIme()));
+			cbServiser.addItem(String.valueOf(serviser.getIme().concat(serviser.getPrezime())));
 		}
 		
 		
@@ -96,19 +97,22 @@ public class ServisForma extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					if(validacija()) {
-						int id = Integer.parseInt(txtId.getText());
-						int idAuto = Integer.parseInt((String)cbAuto.getSelectedItem());
+						String id = txtId.getText().trim();
+						String idAuto = cbAuto.getSelectedItem().toString();
+						
 						String serviserKo = cbServiser.getSelectedItem().toString();
+						String serviserKo2 = citanje.pronadjiIdPoImenuiPServiser(serviserKo);
 						Automobil automobil = citanje.pronadjiAutomobil(idAuto);
-						Serviser serviser = citanje.nadjiServisera(serviserKo);
+						Serviser serviser = citanje.pronadjiServisera(serviserKo2);
 						String opis = txtOpis.getText().trim();					
 						Date datum = new Date(2019, 12, 1);
 						ArrayList<Deo>listaDelova = new ArrayList<Deo>();
 						
 						if(servis == null) {
-							Servis novi = new Servis(id, auto, serviser, datum, opis, listaDelova, false);
+							Servis novi = new Servis(id, automobil, serviser, datum, opis, listaDelova, false);
 							citanje.dodajServis(novi);
 						}else {
+							servis.setId(id);
 							servis.setAuto(automobil);
 							servis.setServiser(serviser);
 							servis.setDatum(datum);
@@ -129,15 +133,25 @@ public class ServisForma extends JFrame {
 	private void popuniPolja() {
 		txtId.setText(String.valueOf(servis.getId()));
 		txtOpis.setText(servis.getOpis());	
-		cbAuto.setSelectedItem(this.auto.getMarka());
-		cbServiser.setSelectedItem(serviser.getKorisnickoIme());
+		//cbAuto.setSelectedItem(this.auto.getMarka());
+		//cbServiser.setSelectedItem(serviser.getKorisnickoIme());
 		
 		
 	}
 	public boolean validacija() {
 		boolean ok = true;
 		String poruka = "Molimo popravite greske u unosu:\n";
-		
+		if(txtId.getText().trim().equals("")) {
+			poruka += "- Unesite id\n";
+			ok = false;
+		}else if (servis == null) {
+			String id = txtId.getText().trim();
+			Servis pronadjen = citanje.pronadjiServis(id);
+			if(pronadjen != null) {
+				poruka += "- Servis sa tim id-om vec postoji!\n";
+				ok = false;
+			}		
+		}
 	
 		if(txtOpis.getText().trim().equals("")) {
 			poruka += "- Unesite opis\n";

@@ -5,14 +5,14 @@ import uloge.Model;
 
 public class Deo {
 	
-	private int id;
+	private String id;
 	private Marka marka;
 	private Model model;
 	private String naziv;
 	private double cena;
 	private boolean obrisan;
 	
-	public Deo(int id,Marka marka, Model model, String naziv, double cena,boolean obrisan) {
+	public Deo(String id,Marka marka, Model model, String naziv, double cena,boolean obrisan) {
 		super();
 		this.id = id;
 		this.marka = marka;
@@ -29,11 +29,11 @@ public class Deo {
 		this.obrisan = obrisan;
 	}
 	
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

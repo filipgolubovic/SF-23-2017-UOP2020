@@ -25,12 +25,14 @@ public class ServisAutomobilaMain {
 		CitanjeFajlova citanje = new CitanjeFajlova();
 		citanje.ucitavanjeAdmina();
 		citanje.ucitajMusterije();
+		citanje.ucitajAutomobile();
 		citanje.ucitajServisere();
 		citanje.ucitajServise();
 		citanje.ucitajSKnjizice();
-		citanje.ucitajAutomobile();
 		citanje.ucitajDelove();
-
+		
+		
+		
 		
 		
 		Prijava prijavaProzor = new Prijava(citanje);

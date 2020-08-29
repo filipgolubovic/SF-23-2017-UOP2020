@@ -7,7 +7,7 @@ import uloge.VrstaGoriva;
 
 public class Automobil {
 	
-	private int id;
+	private String id;
 	private Musterija vlasnik;
 	private Marka marka;
 	private Model model;
@@ -18,7 +18,7 @@ public class Automobil {
 	private boolean obrisan;
 	
 	public Automobil() {
-		this.id = 0;
+		this.id = "";
 		this.vlasnik = new Musterija();
 		this.marka = Marka.AUDI;
 		this.model = Model.R8;
@@ -29,7 +29,7 @@ public class Automobil {
 		this.obrisan = false;
 	}
 	
-	public Automobil(int id,Musterija vlasnik, Marka marka, Model model, int godiste, String snagaMotora,
+	public Automobil(String id,Musterija vlasnik, Marka marka, Model model, int godiste, String snagaMotora,
 			String zapreminaMotora, VrstaGoriva vrstaGoriva, boolean obrisan) {
 		super();
 		this.id = id;
@@ -51,12 +51,12 @@ public class Automobil {
 	}
 	
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

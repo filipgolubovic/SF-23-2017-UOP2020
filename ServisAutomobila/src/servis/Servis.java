@@ -7,7 +7,7 @@ import korisnici.Serviser;
 
 public class Servis {
 	
-	private int id;
+	private String id;
 	private Automobil auto;
 	private Serviser serviser;
 	private Date datum;
@@ -15,7 +15,7 @@ public class Servis {
 	private ArrayList<Deo>listaDelova;
 	private boolean obrisan;
 	
-	public Servis(int id,Automobil auto, Serviser serviser, Date datum, String opis, ArrayList<Deo> listaDelova,boolean obrisan) {
+	public Servis(String id,Automobil auto, Serviser serviser, Date datum, String opis, ArrayList<Deo> listaDelova,boolean obrisan) {
 		super();
 		this.id = id;
 		this.auto = auto;
@@ -34,11 +34,11 @@ public class Servis {
 		this.obrisan = obrisan;
 	}
 	
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

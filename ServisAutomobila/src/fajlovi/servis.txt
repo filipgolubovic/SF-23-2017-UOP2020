@@ -1,2 +1,5 @@
-1|1|8|3920-12-12|Promena kocnica|[]|false
-2|1|9|3920-12-12|Promena ulja|[]|true
+1|2|8|3920-12-12|Promena kocnica|[]|false
+2|1|9|3920-12-12|Promena ulja|[]|false
+5|1|8|3920-12-12|ewr|[]|false
+54r32|3|9|3920-12-12|fsdfsdf|[]|true
+333eed|3|9|3920-01-01|wdqda|[]|true

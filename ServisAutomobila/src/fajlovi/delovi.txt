@@ -3,3 +3,5 @@
 3|1|1|Retrovizor|5000.0|false
 4|2|2|4 Gume|14000.0|false
 0|1|1|aaaa|1500.0|true
+321|1|1|www|10000.0|true
+33|0|0|gdfg|5080.0|true

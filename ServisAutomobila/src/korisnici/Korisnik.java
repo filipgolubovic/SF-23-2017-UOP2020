@@ -4,7 +4,7 @@ import uloge.Pol;
 
 public abstract class Korisnik {
 	
-	protected int id;
+	protected String id;
 	protected String ime;
 	protected String prezime;
 	protected String jmbg;
@@ -17,7 +17,7 @@ public abstract class Korisnik {
 	
 	public Korisnik() {
 		super();
-		this.id = 0;
+		this.id = "";
 		this.ime = "";
 		this.prezime = "";
 		this.jmbg = "";
@@ -29,7 +29,7 @@ public abstract class Korisnik {
 		this.obrisan = false;
 	}
 
-	public Korisnik(int id,String ime, String prezime, String jmbg, Pol pol, String adresa, String brojTelefona,
+	public Korisnik(String id,String ime, String prezime, String jmbg, Pol pol, String adresa, String brojTelefona,
 			String korisnickoIme, String lozinka,boolean obrisan) {
 		super();
 		this.id = id;
@@ -45,11 +45,11 @@ public abstract class Korisnik {
 	}
 	
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
