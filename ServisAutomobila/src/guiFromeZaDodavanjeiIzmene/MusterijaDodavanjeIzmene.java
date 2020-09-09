@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -18,38 +19,31 @@ import net.miginfocom.swing.MigLayout;
 import servis.Automobil;
 import servis.Deo;
 import servis.Servis;
-import uloge.Marka;
-import uloge.Model;
-import uloge.VrstaGoriva;
 import util.CitanjeFajlova;
 
-public class ServisForma extends JFrame {
-	private JLabel lblId = new JLabel("ID");
+public class MusterijaDodavanjeIzmene extends JFrame {
+	private JLabel lblId = new JLabel("Id");
 	private JTextField txtId = new JTextField(20);
-	
+	private JLabel lblOpis = new JLabel("Opis");
+	private JTextField txtOpis = new JTextField(20);
 	private JLabel lblAuto= new JLabel("Auto");
 	private JComboBox<String>cbAuto= new JComboBox<String>();
 	private JLabel lblServiser= new JLabel("Serviser");
-	private JComboBox<String>cbServiser = new JComboBox<String>();
+	private JComboBox<String>cbServiser= new JComboBox<String>();
 	
-	private JLabel lblOpis = new JLabel("Opis");
-	private JTextField txtOpis = new JTextField(20);
-	private JLabel lblDatum = new JLabel("Datum");
-	private JTextField txtDatum = new JTextField(20);
-
-
 	private JButton btnOk = new JButton("OK");
 	private JButton btnCancel = new JButton("Cancel");
 	
 	private CitanjeFajlova citanje;
 	private Servis servis;
-
+	private Musterija prijavljenaMusterija;
 	
-	public ServisForma(CitanjeFajlova citanje,Servis servis) {
+	public MusterijaDodavanjeIzmene(CitanjeFajlova citanje,Servis servis,Musterija prijavljenaMusterija) {
 		this.citanje = citanje;
 		this.servis = servis;
+		this.prijavljenaMusterija = prijavljenaMusterija;
 		if(servis == null) {
-			setTitle("Dodavanje delova");
+			setTitle("Dodavanje servisa");
 		}else {
 			setTitle("Izmena podataka - "+servis.getOpis());
 		}
@@ -65,23 +59,25 @@ public class ServisForma extends JFrame {
 		setLayout(layout);
 		
 		for (Automobil auto : citanje.sviNeobrisaniAutomobili()) {
-			cbAuto.addItem(String.valueOf(auto.getId()));
+				if(prijavljenaMusterija.getId().equals(auto.getVlasnik().getId())) {
+					cbAuto.addItem(String.valueOf(auto.getId()));
+				}
+				
 		}
 		for (Serviser serviser : citanje.sviNeobrisaniServiseri()) {
 			cbServiser.addItem(String.valueOf(serviser.getIme().concat(serviser.getPrezime())));
 		}
-		
-		
 		if(servis != null) {
 			popuniPolja();
 		}
-		
-		add(lblId);
+		add(lblId);	
 		add(txtId);
+	
 		add(lblAuto);
 		add(cbAuto);
-		add(lblServiser);	
+		add(lblServiser);
 		add(cbServiser);
+		
 		add(lblOpis);	
 		add(txtOpis);
 		add(new JLabel());
@@ -98,9 +94,9 @@ public class ServisForma extends JFrame {
 					if(validacija()) {
 						String id = txtId.getText().trim();
 						String idAuto = cbAuto.getSelectedItem().toString();
-						
 						String serviserKo = cbServiser.getSelectedItem().toString();
 						String serviserKo2 = citanje.pronadjiIdPoImenuiPServiser(serviserKo);
+						
 						Automobil automobil = citanje.pronadjiAutomobil(idAuto);
 						Serviser serviser = citanje.pronadjiServisera(serviserKo2);
 						String opis = txtOpis.getText().trim();					
@@ -115,11 +111,12 @@ public class ServisForma extends JFrame {
 							servis.setAuto(automobil);
 							servis.setServiser(serviser);
 							servis.setDatum(datum);
-							servis.setOpis(opis);;		
+							servis.setOpis(opis);
+							
 						}
 						citanje.snimiServise();
-						ServisForma.this.dispose();
-						ServisForma.this.setVisible(false);
+						MusterijaDodavanjeIzmene.this.dispose();
+						MusterijaDodavanjeIzmene.this.setVisible(false);
 					}
 				} catch (NumberFormatException e1) {
 					
@@ -130,8 +127,7 @@ public class ServisForma extends JFrame {
 		});
 	}
 	private void popuniPolja() {
-		txtId.setText(String.valueOf(servis.getId()));
-		txtOpis.setText(servis.getOpis());	
+		txtOpis.setText(servis.getOpis());			
 	}
 	public boolean validacija() {
 		boolean ok = true;
@@ -150,7 +146,6 @@ public class ServisForma extends JFrame {
 		if(txtOpis.getText().trim().equals("")) {
 			poruka += "- Unesite opis\n";
 			ok = false;
-	
 		}
 		if(ok == false) {
 			JOptionPane.showMessageDialog(null, poruka, "Neispravni podaci", JOptionPane.WARNING_MESSAGE);

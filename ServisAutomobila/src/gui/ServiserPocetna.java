@@ -22,8 +22,14 @@ public class ServiserPocetna extends JFrame {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		initMenu();
+		initActions();
+	}
+	private void initActions() {
+		
+		
 	}
 	public void initMenu() {
 		setJMenuBar(mainMenu);
 	}
+	
 }

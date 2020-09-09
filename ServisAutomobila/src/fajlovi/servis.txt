@@ -1,5 +1,10 @@
 1|2|8|3920-12-12|Promena kocnica|[]|false
 2|1|9|3920-12-12|Promena ulja|[]|false
 5|1|8|3920-12-12|ewr|[]|false
-54r32|3|9|3920-12-12|fsdfsdf|[]|true
-333eed|3|9|3920-01-01|wdqda|[]|true
+6|4|10|3920-12-12|de|[]|false
+4|3|9|3920-12-12|fdsf|[]|false
+66|2|9|3920-12-12|fg|[]|false
+444|4|9|3920-12-12|aaaaaaa|[]|false
+77|1|9|3920-12-12|hyhy|[]|false
+1|1|8|3920-01-01|fdsfs|[]|true
+1|1|8|3920-12-12|cvx|[]|true

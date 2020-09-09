@@ -20,6 +20,7 @@ import guiFromeZaDodavanjeiIzmene.ServiserForma;
 import korisnici.Administrator;
 import korisnici.Musterija;
 import korisnici.Serviser;
+import servis.Servis;
 import slike.*;
 import util.CitanjeFajlova;
 
@@ -95,11 +96,11 @@ public class ServiseriPrikaz extends JFrame {
 				if(red == -1) {
 					JOptionPane.showMessageDialog(null, "Morate odabrati red u tabeli.", "Greska", JOptionPane.WARNING_MESSAGE);
 				}else {
-					String korIme = tableModel.getValueAt(red, 3).toString();
+					String korIme  = tableModel.getValueAt(red, 3).toString();
 					Serviser serviser = citanje.nadjiServisera(korIme);
 				
 					
-					int izbor = JOptionPane.showConfirmDialog(null, "Da li ste sigurni da zelite da obrisete servisera?", korIme + " - Potvrda brisanja", JOptionPane.YES_NO_OPTION);
+					int izbor = JOptionPane.showConfirmDialog(null, "Da li ste sigurni da zelite da obrisete servis?", korIme + " - Potvrda brisanja", JOptionPane.YES_NO_OPTION);
 					if(izbor == JOptionPane.YES_OPTION) {
 						serviser.setObrisan(true);
 						tableModel.removeRow(red);

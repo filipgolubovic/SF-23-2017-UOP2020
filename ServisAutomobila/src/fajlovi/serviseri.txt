@@ -1,3 +1,5 @@
 8|Filip|Mincic|fikus|774|0|1888|Narodnog Fronta 4|111-555|250000.0|0|false
 9|Vlada|Jovanovic|vlada|12|0|1999|Narodnog Fronta 2|222-555|80000.0|1|false
 10|Jovica|Mitrovic|jova|224|0|2000|Cara Lazara 92|444-555|10000.0|2|false
+11|fds|fdf|sdfdsf|dsfd|1|sfdsf|dfdsf|fdsf|22.0|1|true
+12|gdfgdfgfewf|fgdffew|gfgdfgffewfwfewfwfw|gfdgfdg|0|dgfaaaaaa|fgdfaaaaaa|gfdg|444.0|0|true

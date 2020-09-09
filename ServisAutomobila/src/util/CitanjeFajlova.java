@@ -538,7 +538,7 @@ public class CitanjeFajlova {
 			File file = new File("src/fajlovi/servisnaKnjizica.txt");
 			String content = "";
 			for (ServisnaKnjizica sKnjizica : sKnjizice) {
-				content += sKnjizica.getId() + "|" + sKnjizica.getAutomobil()+ "|"
+				content += sKnjizica.getId() + "|" + sKnjizica.getAutomobil().getId()+ "|"
 						+ sKnjizica.getListaServisa() + "|"+sKnjizica.isObrisan()+
 						"\n";
 			}
@@ -685,8 +685,35 @@ public class CitanjeFajlova {
 			
 		}return null;
 	}
-	
-	
+	public String pronadjiIDKnjizice(String id) {
+		for(ServisnaKnjizica knjizica : this.sviNeobrisaneSKnjizice()) {
+			if(knjizica.getId().equals(id)) {
+				return id;
+			}		
+		}return null;
+		
+	}
+	public ServisnaKnjizica pronanjiKnjizicu(String id) {
+		for(ServisnaKnjizica knjizica : this.sviNeobrisaneSKnjizice()) {
+			if(knjizica.getId().equals(id)) {
+				return knjizica;
+			}
+		}return null;
+	}
+	public Automobil pronadjiVlasnikaAuta(Musterija prijavljenaMusterija) {
+		for(Automobil auto : sviNeobrisaniAutomobili()) {
+			if(prijavljenaMusterija.getId().equals(auto.getVlasnik().getId())) {
+				return auto;
+			}
+		}return null;
+	}
+	public Servis pronadjiServisPoAutu(Automobil a1) {
+		for(Servis s1 : sviNeobrisaniServisi()) {
+			if(s1.getAuto().getId().equals(a1.getId())) {
+				return s1;
+			}		
+		}return null;	
+	}
 }
 
 	

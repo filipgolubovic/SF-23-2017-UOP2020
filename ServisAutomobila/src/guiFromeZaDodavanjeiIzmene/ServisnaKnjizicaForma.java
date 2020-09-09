@@ -12,46 +12,36 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import korisnici.Musterija;
 import korisnici.Serviser;
 import net.miginfocom.swing.MigLayout;
 import servis.Automobil;
 import servis.Deo;
 import servis.Servis;
-import uloge.Marka;
-import uloge.Model;
-import uloge.VrstaGoriva;
+import servis.ServisnaKnjizica;
 import util.CitanjeFajlova;
 
-public class ServisForma extends JFrame {
+public class ServisnaKnjizicaForma extends JFrame {
+	
 	private JLabel lblId = new JLabel("ID");
 	private JTextField txtId = new JTextField(20);
-	
 	private JLabel lblAuto= new JLabel("Auto");
 	private JComboBox<String>cbAuto= new JComboBox<String>();
-	private JLabel lblServiser= new JLabel("Serviser");
-	private JComboBox<String>cbServiser = new JComboBox<String>();
+	private JLabel lblServis= new JLabel("Servis");
+	private JComboBox<String>cbServis= new JComboBox<String>();
 	
-	private JLabel lblOpis = new JLabel("Opis");
-	private JTextField txtOpis = new JTextField(20);
-	private JLabel lblDatum = new JLabel("Datum");
-	private JTextField txtDatum = new JTextField(20);
-
-
 	private JButton btnOk = new JButton("OK");
 	private JButton btnCancel = new JButton("Cancel");
-	
 	private CitanjeFajlova citanje;
-	private Servis servis;
-
+	public ServisnaKnjizica sKnjizica;
 	
-	public ServisForma(CitanjeFajlova citanje,Servis servis) {
+	
+	public ServisnaKnjizicaForma(CitanjeFajlova citanje,ServisnaKnjizica sKnjizica) {
 		this.citanje = citanje;
-		this.servis = servis;
-		if(servis == null) {
-			setTitle("Dodavanje delova");
+		this.sKnjizica = sKnjizica;
+		if(sKnjizica == null) {
+			setTitle("Dodavanje Knjizica");
 		}else {
-			setTitle("Izmena podataka - "+servis.getOpis());
+			setTitle("Izmena podataka - "+sKnjizica.getAutomobil().getMarka());
 		}
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -68,11 +58,11 @@ public class ServisForma extends JFrame {
 			cbAuto.addItem(String.valueOf(auto.getId()));
 		}
 		for (Serviser serviser : citanje.sviNeobrisaniServiseri()) {
-			cbServiser.addItem(String.valueOf(serviser.getIme().concat(serviser.getPrezime())));
+			cbServis.addItem(String.valueOf(serviser.getId()));
 		}
 		
 		
-		if(servis != null) {
+		if(sKnjizica != null) {
 			popuniPolja();
 		}
 		
@@ -80,10 +70,9 @@ public class ServisForma extends JFrame {
 		add(txtId);
 		add(lblAuto);
 		add(cbAuto);
-		add(lblServiser);	
-		add(cbServiser);
-		add(lblOpis);	
-		add(txtOpis);
+		add(lblServis);
+		add(cbServis);
+		
 		add(new JLabel());
 		add(btnOk,"split 2");
 		add(btnCancel);
@@ -97,29 +86,26 @@ public class ServisForma extends JFrame {
 				try {
 					if(validacija()) {
 						String id = txtId.getText().trim();
-						String idAuto = cbAuto.getSelectedItem().toString();
-						
-						String serviserKo = cbServiser.getSelectedItem().toString();
-						String serviserKo2 = citanje.pronadjiIdPoImenuiPServiser(serviserKo);
+						String idAuto = cbAuto.getSelectedItem().toString();			
 						Automobil automobil = citanje.pronadjiAutomobil(idAuto);
-						Serviser serviser = citanje.pronadjiServisera(serviserKo2);
-						String opis = txtOpis.getText().trim();					
-						Date datum = new Date(2019, 12, 1);
-						ArrayList<Deo>listaDelova = new ArrayList<Deo>();
+						String servisKo = cbServis.getSelectedItem().toString();
+						Servis servis = citanje.pronadjiServis(servisKo);
 						
-						if(servis == null) {
-							Servis novi = new Servis(id, automobil, serviser, datum, opis, listaDelova, false);
-							citanje.dodajServis(novi);
+						ArrayList<Servis>listaServisa = new ArrayList<Servis>();
+						listaServisa.add(servis);
+						if(sKnjizica == null) {
+							ServisnaKnjizica novi = new ServisnaKnjizica(id, automobil, listaServisa, false);
+							citanje.dodajSKnjizice(novi);;
 						}else {
-							servis.setId(id);
-							servis.setAuto(automobil);
-							servis.setServiser(serviser);
-							servis.setDatum(datum);
-							servis.setOpis(opis);;		
+							sKnjizica.setId(id);
+							sKnjizica.setAutomobil(automobil);
+							sKnjizica.setListaServisa(listaServisa);
+							
+									
 						}
-						citanje.snimiServise();
-						ServisForma.this.dispose();
-						ServisForma.this.setVisible(false);
+						citanje.snimiSKnjizice();
+						ServisnaKnjizicaForma.this.dispose();
+						ServisnaKnjizicaForma.this.setVisible(false);
 					}
 				} catch (NumberFormatException e1) {
 					
@@ -130,8 +116,8 @@ public class ServisForma extends JFrame {
 		});
 	}
 	private void popuniPolja() {
-		txtId.setText(String.valueOf(servis.getId()));
-		txtOpis.setText(servis.getOpis());	
+		txtId.setText(String.valueOf(sKnjizica.getId()));
+		
 	}
 	public boolean validacija() {
 		boolean ok = true;
@@ -139,18 +125,13 @@ public class ServisForma extends JFrame {
 		if(txtId.getText().trim().equals("")) {
 			poruka += "- Unesite id\n";
 			ok = false;
-		}else if (servis == null) {
+		}else if (sKnjizica == null) {
 			String id = txtId.getText().trim();
-			Servis pronadjen = citanje.pronadjiServis(id);
+			ServisnaKnjizica pronadjen = citanje.pronanjiKnjizicu(id);
 			if(pronadjen != null) {
-				poruka += "- Servis sa tim id-om vec postoji!\n";
+				poruka += "- Knjizica sa tim id-om vec postoji!\n";
 				ok = false;
 			}		
-		}
-		if(txtOpis.getText().trim().equals("")) {
-			poruka += "- Unesite opis\n";
-			ok = false;
-	
 		}
 		if(ok == false) {
 			JOptionPane.showMessageDialog(null, poruka, "Neispravni podaci", JOptionPane.WARNING_MESSAGE);

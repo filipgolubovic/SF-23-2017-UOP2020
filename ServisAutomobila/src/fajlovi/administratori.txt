@@ -1,7 +1,2 @@
 1|Filip|Golubovic|fikus|123|0|88|Lole Ribara 39|111-222|200000.0|false
-2|dsad|das|aa|123|0|88|Lole Ribara 39|111-222|200000.0|false
-1|Milica|Micic|micca1|123|0|4456|bb|111|20000.0|true
-1|fef|ewff|fewfwf|ewfwefew|0|feff|ewfewfew|fewf|20000.0|true
-f|fds|fdsf|dsfds|fdsfdsf|0|dsfd|fdsf|sfs|20000.0|true
-1|ewqe|weqe|qewe|wqeq|0|weqwe|wewqewqe|wqeq|20000.0|true
-3|fdsf|fsdfpp|das|dsad|0|dsad|asdsa|dasd|99.0|false
+2|Milica|Micic|micca1|123|0|4456|bb|111|20000.0|false
